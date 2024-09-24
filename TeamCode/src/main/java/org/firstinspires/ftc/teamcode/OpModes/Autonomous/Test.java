@@ -10,12 +10,13 @@ public class Test extends BaseAutonomous {
         hwMap.robot.drive(new Position2D(0, 100));
         while (opModeIsActive() && hwMap.navi.getDriving()) {
             hwMap.robot.step();
-            telemetry.addData("velocity", hwMap.navi.getVelocity().getVX());
-            //telemetry.addLine(accelerationProfile.debug());
-            telemetry.addLine(hwMap.navi.debug());
-            telemetry.addLine(hwMap.chassis.debug());
-            telemetry.update();
         }
         while (opModeIsActive()) {}
+
+
+
+        telemetry.addLine(hwMap.navi.debug());
+        telemetry.addLine(hwMap.chassis.debug());
+        telemetry.update();
     }
 }
