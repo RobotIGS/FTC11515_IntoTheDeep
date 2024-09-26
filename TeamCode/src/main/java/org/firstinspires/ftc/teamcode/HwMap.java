@@ -30,18 +30,18 @@ public class HwMap {
     public final double speed_full = 0.55;
     public final double speed_sneak = 0.3;
 
-    public final int motor_erste_achse_1_oben = 0;
-    public final int motor_erste_achse_2_oben = 0;
-    public final int motor_zweite_achse_oben = 0;
+    public final int motor_erste_achse_1_oben = 0; //TODO
+    public final int motor_erste_achse_2_oben = 0; //TODO
+    public final int motor_zweite_achse_oben = 0; //TODO
 
     public final int motor_erste_achse_1_unten = 0;
     public final int motor_erste_achse_2_unten = 0;
     public final int motor_zweite_achse_unten = 0;
 
-    public final double kralle_auf = 0;
+    public final double kralle_auf = 0; //TODO
     public final double kralle_zu = 0;
 
-    public final int motor_zweite_achse_ausgefahren = 0;
+    public final int motor_zweite_achse_ausgefahren = 0; //TODO
 
     /* END SECTION */
 

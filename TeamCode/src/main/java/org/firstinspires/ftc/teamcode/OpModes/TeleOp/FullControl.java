@@ -12,10 +12,15 @@ public class FullControl extends BaseTeleOp {
     /* END SECTION */
 
     /**
-     *  Gamepad1: Fahren
-     *  Gamepad2: Arm & Kralle:
+     *  Gamepad 1: Fahren
+     *  Gamepad 2: Arm & Kralle:
      *      a: Arm ganz auf/ganz zu
      *      b: Kralle auf/zu
+     *      x: Zweite Achse ganz auf/ ganz zu
+     *      left_stick_y: erste Achse
+     *      right_stick_y: zweite Achse
+     *      dpad up/down: Kralle
+     *
      */
 
     @Override
@@ -89,10 +94,10 @@ public class FullControl extends BaseTeleOp {
         }
 
         if (gamepad2.dpad_up){
-            hwMap.kralle.setPosition(hwMap.kralle.getPosition()-1);
+            hwMap.kralle.setPosition(hwMap.kralle.getPosition()-0.01);
         }
         else if (gamepad2.dpad_down) {
-            hwMap.kralle.setPosition(hwMap.kralle.getPosition()+1);
+            hwMap.kralle.setPosition(hwMap.kralle.getPosition()+0.01);
         }
 
         /* END SECTION */
