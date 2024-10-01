@@ -63,7 +63,8 @@ public class MotorServoTest extends BaseTeleOp {
         // motor information
         telemetry.addLine("motor information:");
         telemetry.addData("Speed", Math.abs(gamepad1.left_stick_y));
-        telemetry.addData("Steps", motor.getCurrentPosition());
+        telemetry.addData("Steps motor 1", motor.getCurrentPosition());
+        telemetry.addData("Steps motor 2", motor.getCurrentPosition());
 
         // servo information
         telemetry.addLine("servo information:");
