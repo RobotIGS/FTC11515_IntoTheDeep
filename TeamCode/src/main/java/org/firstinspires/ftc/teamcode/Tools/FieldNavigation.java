@@ -233,7 +233,7 @@ public class FieldNavigation {
 
         Rotation rotation_error = new Rotation(target_rotation.get());
         rotation_error.add(-rotation.get());
-        ret += String.format("\n\nerror : %f\n", rotation_error.get());
+        ret += String.format("rotation error : %f\n", rotation_error.get());
         return ret;
     }
 

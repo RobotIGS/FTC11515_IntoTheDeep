@@ -12,10 +12,10 @@ import org.firstinspires.ftc.teamcode.OpModes.TeleOp.BaseTeleOp;
 public class MotorServoTest extends BaseTeleOp {
     /**
      * HW-Map: testing
-     * Servo: Port 1
-     * CR-Servo (dreht sich unendlich): Port 2
-     * Motor: Port 1
-     * Motor 2: Port 2
+     * Servo: Port 0
+     * CR-Servo (dreht sich unendlich): Port 1
+     * Motor: Port 0
+     * Motor 2: Port 1
      */
 
     public DcMotor motor;
@@ -35,6 +35,7 @@ public class MotorServoTest extends BaseTeleOp {
 
     @Override
     public void runOnce() {
+        servo.setPosition(servo.getPosition());
     }
 
     @Override
