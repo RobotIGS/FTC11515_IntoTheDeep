@@ -23,6 +23,8 @@ public class HwMap {
 
     public Servo servo_zweite_achse;
     public Servo servo_kralle;
+    public Servo servo_kralle_drehen;
+
     /* END SECTION */
 
     /* PLACE YOUR CONSTANT VALUES DOWN BELOW*/
@@ -39,7 +41,8 @@ public class HwMap {
     public final double kralle_offen = 0.62;
     public final double kralle_zu = 0.8;
 
-    public int steps_motor_erste_achse = 0;
+    public final double kralle_drehen_vorne = 0.75;
+    public final double kralle_drehen_hinten = 0.25;
 
     /* END SECTION */
 
@@ -74,6 +77,7 @@ public class HwMap {
 
         servo_zweite_achse = hardwareMap.get(Servo.class, "zweite_achse");
         servo_kralle = hardwareMap.get(Servo.class,"kralle");
+        servo_kralle_drehen = hardwareMap.get(Servo.class,"kralle_drehen");
 
         motor_hochziehen_links = hardwareMap.get(DcMotor.class,"hochziehen_links");
         motor_hochziehen_rechts = hardwareMap.get(DcMotor.class,"hochziehen_rechts");

@@ -8,8 +8,9 @@ public class FullControl extends BaseTeleOp {
     protected boolean drive_sneak = false; // flag for storing the current speed mode
     protected boolean erste_achse_ausgefahren = false;
     protected boolean zweite_achse_ausgefahren = false;
-    protected boolean kralle_zu = true;
+    protected boolean kralle_zu = false;
     protected boolean hochziehen = false;
+    protected boolean kralle_drehen_vorne = true;
 
     /* END SECTION */
 
@@ -19,9 +20,14 @@ public class FullControl extends BaseTeleOp {
      *      a: Arm ganz auf/ganz zu
      *      b: Kralle auf/zu
      *      x: Zweite Achse ganz auf/ ganz zu
+     *      y: hochziehen
      *      left_stick_y: erste Achse
      *      right_stick_y: zweite Achse
      *      dpad up/down: Kralle
+     *      dpad left/right: Kralle drehen
+     *      trigger: hochziehen
+     *      bumper rechts: kralle nach ganz vorne/ganz hinten drehen
+     *
      *
      */
 
@@ -38,8 +44,9 @@ public class FullControl extends BaseTeleOp {
         /* ADD CODE WHICH IS RUN ONCE WHEN PLAY IS PRESSED */
 
         hwMap.servo_zweite_achse.setPosition(hwMap.servo_zweite_achse_eingefahren);
-        hwMap.servo_kralle.setPosition(hwMap.kralle_zu);
+        hwMap.servo_kralle.setPosition(hwMap.kralle_offen);
         hwMap.motor_erste_achse.setTargetPosition(hwMap.motor_erste_achse_unten);
+        hwMap.servo_kralle_drehen.setPosition(hwMap.kralle_drehen_vorne);
 
         /* END SECTION */
     }
@@ -117,8 +124,28 @@ public class FullControl extends BaseTeleOp {
             hwMap.servo_kralle.setPosition(hwMap.servo_kralle.getPosition()+0.001);
         }
 
+        if (gamepad2.dpad_left){
+            hwMap.servo_kralle_drehen.setPosition(hwMap.servo_kralle_drehen.getPosition()-0.001);
+        }
+        else if (gamepad2.dpad_right) {
+            hwMap.servo_kralle_drehen.setPosition(hwMap.servo_kralle_drehen.getPosition()+0.001);
+        }
+
+        if (gamepad2.right_bumper){
+            if (kralle_drehen_vorne) {
+                hwMap.servo_kralle_drehen.setPosition(hwMap.kralle_drehen_hinten);
+            }
+            else{
+                hwMap.servo_kralle_drehen.setPosition(hwMap.kralle_drehen_vorne);
+            }
+            kralle_drehen_vorne = !kralle_drehen_vorne;
+        }
+
+
+
         hwMap.motor_hochziehen_links.setPower(gamepad2.left_trigger - gamepad2.right_trigger);
         hwMap.motor_hochziehen_rechts.setPower(gamepad2.left_trigger - gamepad2.right_trigger);
+
 
         /* END SECTION */
 
