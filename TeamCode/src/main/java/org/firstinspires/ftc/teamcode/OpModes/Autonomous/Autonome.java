@@ -1,11 +1,13 @@
 package org.firstinspires.ftc.teamcode.OpModes.Autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.hardware.DcMotor;
+
 import org.firstinspires.ftc.teamcode.Tools.DTypes.Position2D;
 
 @Autonomous(name = "Autonome")
 public class Autonome extends BaseAutonomous {
-    
+
     @Override
     public void run() {
         hwMap.servo_zweite_achse.setPosition(hwMap.servo_zweite_achse_eingefahren);
@@ -13,7 +15,11 @@ public class Autonome extends BaseAutonomous {
         hwMap.motor_erste_achse.setTargetPosition(hwMap.motor_erste_achse_unten);
         hwMap.servo_kralle_drehen.setPosition(hwMap.kralle_drehen_hinten);
 
+        hwMap.motor_erste_achse.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
         hwMap.robot.navi.setKeepRotation(true);
+
+        // START
 
         hwMap.robot.drive(new Position2D(35, 0));
         schleife();
@@ -60,6 +66,9 @@ public class Autonome extends BaseAutonomous {
 
         hwMap.robot.drive(new Position2D(210, -95));
         schleife();
+
+        hwMap.motor_erste_achse.setTargetPosition(hwMap.motor_erste_achse_oben-120);
+
     }
 
     void schleife() {
