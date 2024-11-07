@@ -35,20 +35,21 @@ public class HwMap {
 
     // autonomous values
     public final double driving_accuracy = 1.5;
-    public final float rotation_accuracy = 3.0f;
+    public final float rotation_accuracy = 4.0f;
 
     // values
     public int motor_erste_achse_unten;
     public int motor_erste_achse_oben;
 
-    public final double servo_zweite_achse_eingefahren = 0.85;
-    public final double servo_zweite_achse_ausgefahren = 0.2;
+    public final double servo_zweite_achse_eingefahren = 0.6;
+    public final double servo_zweite_achse_mitte = 0.3;
+    public final double servo_zweite_achse_ausgefahren = 0.05;
 
-    public final double kralle_offen = 0.62;
-    public final double kralle_zu = 0.8;
+    public final double kralle_offen = 0.67;
+    public final double kralle_zu = 0.9;
 
-    public final double kralle_drehen_vorne = 0.75;
-    public final double kralle_drehen_hinten = 0.25;
+    public final double kralle_drehen_vorne = 0.35;
+    public final double kralle_drehen_hinten = 1.0;
 
     /* END SECTION */
 
@@ -74,7 +75,7 @@ public class HwMap {
         motor_erste_achse.setTargetPosition(motor_erste_achse.getCurrentPosition());
         motor_erste_achse.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motor_erste_achse.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        motor_erste_achse.setPower(1.0);
+        motor_erste_achse.setPower(0.1);
         motor_erste_achse.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         motor_erste_achse_unten = motor_erste_achse.getCurrentPosition() + 150;

@@ -19,33 +19,45 @@ public class Autonome extends BaseAutonomous {
 
         hwMap.robot.navi.setKeepRotation(true);
 
-        // START
+        // START: 2. Kachel an Kante zur 3. Kachel
 
-        hwMap.robot.drive(new Position2D(35, 0));
+        // nach vorne fahren
+        hwMap.robot.drive(new Position2D(20, 0));
         schleife();
 
+        // nach links drehen
         hwMap.robot.rotate(-90);
         schleife();
 
+        // Arm ausfahren
         hwMap.motor_erste_achse.setTargetPosition(hwMap.motor_erste_achse_oben);
         hwMap.servo_zweite_achse.setPosition(hwMap.servo_zweite_achse_ausgefahren);
-        hwMap.robot.drive(new Position2D(-85, 0));
+        hwMap.robot.drive(new Position2D(-80, 0));
         schleife();
 
+        // zur Box drehen
         hwMap.robot.rotate(45);
         schleife();
 
+        // Stein abladen
         hwMap.servo_kralle.setPosition(hwMap.kralle_offen);
         sleep(10);
 
+        // 2. Achse einfahren
+        hwMap.servo_zweite_achse.setPosition(hwMap.servo_zweite_achse_mitte);
+        sleep(100);
+
+        // Vorbereitung zum Greifen vom Boden
         hwMap.motor_erste_achse.setTargetPosition(hwMap.motor_erste_achse_unten);
         hwMap.servo_kralle_drehen.setPosition(hwMap.kralle_drehen_vorne);
         hwMap.robot.rotate(45);
         schleife();
 
+        // Fahren
         hwMap.robot.drive(new Position2D(45, 25));
         schleife();
 
+        // Stein aufnehmen
         hwMap.servo_kralle.setPosition(hwMap.kralle_zu);
         sleep(10);
         hwMap.motor_erste_achse.setTargetPosition(hwMap.motor_erste_achse_oben);
@@ -55,20 +67,22 @@ public class Autonome extends BaseAutonomous {
 
         hwMap.robot.drive(new Position2D(-50, 25));
         schleife();
+
         hwMap.servo_kralle.setPosition(hwMap.kralle_offen);
         sleep(10);
 
         hwMap.motor_erste_achse.setTargetPosition(hwMap.motor_erste_achse_unten);
         hwMap.servo_zweite_achse.setPosition(hwMap.servo_zweite_achse_eingefahren);
 
+        // Parken
         hwMap.robot.rotate(-45);
         schleife();
 
         hwMap.robot.drive(new Position2D(210, -95));
         schleife();
 
+        // Stange berühren
         hwMap.motor_erste_achse.setTargetPosition(hwMap.motor_erste_achse_oben-120);
-
     }
 
     void schleife() {

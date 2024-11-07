@@ -17,18 +17,17 @@ public class FullControl extends BaseTeleOp {
     /**
      *  Gamepad 1: Fahren
      *  Gamepad 2: Arm & Kralle:
-     *      a: Arm ganz auf/ganz zu
-     *      b: Kralle auf/zu
-     *      x: Zweite Achse ganz auf/ ganz zu
-     *      y: hochziehen
+     *      a: Erste Achse ganz auf/ganz zu
+     *      b: Zweite Achse ganz auf/ ganz zu
+     *      x: Kralle auf/zu
+     *      y: kralle nach ganz vorne/ganz hinten
+     *      bumper: hochziehen (feste Position)
+     *
      *      left_stick_y: erste Achse
      *      right_stick_y: zweite Achse
      *      dpad up/down: Kralle
      *      dpad left/right: Kralle drehen
-     *      trigger: hochziehen
-     *      bumper rechts: kralle nach ganz vorne/ganz hinten drehen
-     *
-     *
+     *      trigger: hochziehen (manuell)
      */
 
     @Override
@@ -65,6 +64,16 @@ public class FullControl extends BaseTeleOp {
             while (gamepad2.a){}
         }
         if (gamepad2.b){
+            if(!zweite_achse_ausgefahren){
+                hwMap.servo_zweite_achse.setPosition(hwMap.servo_zweite_achse_ausgefahren);
+            }
+            else {
+                hwMap.servo_zweite_achse.setPosition(hwMap.servo_zweite_achse_eingefahren);
+            }
+            zweite_achse_ausgefahren = !zweite_achse_ausgefahren;
+            while (gamepad2.b){}
+        }
+        if (gamepad2.x){
             if(kralle_zu){
                 hwMap.servo_kralle.setPosition(hwMap.kralle_offen);
             }
@@ -72,42 +81,24 @@ public class FullControl extends BaseTeleOp {
                 hwMap.servo_kralle.setPosition(hwMap.kralle_zu);
             }
             kralle_zu = !kralle_zu;
-            while (gamepad2.b){}
-        }
-        if (gamepad2.x){
-            if(!zweite_achse_ausgefahren){
-                hwMap.motor_erste_achse.setPower(0.1);
-                hwMap.servo_zweite_achse.setPosition(hwMap.servo_zweite_achse_ausgefahren);
-                hwMap.motor_erste_achse.setPower(1.0);
-            }
-            else {
-                hwMap.motor_erste_achse.setPower(0.1);
-                hwMap.servo_zweite_achse.setPosition(hwMap.servo_zweite_achse_eingefahren);
-                hwMap.motor_erste_achse.setPower(1.0);
-            }
-            zweite_achse_ausgefahren = !zweite_achse_ausgefahren;
             while (gamepad2.x){}
         }
         if (gamepad2.y){
-            if(!hochziehen){
-                hwMap.motor_hochziehen_links.setPower(0.5);
+            if (kralle_drehen_vorne) {
+                hwMap.servo_kralle_drehen.setPosition(hwMap.kralle_drehen_hinten);
             }
-            else {
-                hwMap.motor_hochziehen_rechts.setPower(0.0);
+            else{
+                hwMap.servo_kralle_drehen.setPosition(hwMap.kralle_drehen_vorne);
             }
-            hochziehen = !hochziehen;
-            while (gamepad2.x){}
+            kralle_drehen_vorne = !kralle_drehen_vorne;
+            while (gamepad2.y) {}
         }
 
         if (gamepad2.left_stick_y < 0) {
-            hwMap.motor_erste_achse.setPower(0.1);
-            hwMap.motor_erste_achse.setTargetPosition(hwMap.motor_erste_achse.getCurrentPosition()+100);
-            hwMap.motor_erste_achse.setPower(1.0);
+            hwMap.motor_erste_achse.setTargetPosition(hwMap.motor_erste_achse.getCurrentPosition()+25);
         }
         else if (gamepad2.left_stick_y > 0) {
-            hwMap.motor_erste_achse.setPower(0.1);
-            hwMap.motor_erste_achse.setTargetPosition(hwMap.motor_erste_achse.getCurrentPosition()-100);
-            hwMap.motor_erste_achse.setPower(1.0);
+            hwMap.motor_erste_achse.setTargetPosition(hwMap.motor_erste_achse.getCurrentPosition()-25);
         }
 
         if (gamepad2.right_stick_y < 0) {
@@ -118,31 +109,30 @@ public class FullControl extends BaseTeleOp {
         }
 
         if (gamepad2.dpad_up){
-            hwMap.servo_kralle.setPosition(hwMap.servo_kralle.getPosition()-0.001);
+            hwMap.servo_kralle.setPosition(hwMap.servo_kralle.getPosition()-0.05);
         }
         else if (gamepad2.dpad_down) {
-            hwMap.servo_kralle.setPosition(hwMap.servo_kralle.getPosition()+0.001);
+            hwMap.servo_kralle.setPosition(hwMap.servo_kralle.getPosition()+0.05);
         }
 
         if (gamepad2.dpad_left){
-            hwMap.servo_kralle_drehen.setPosition(hwMap.servo_kralle_drehen.getPosition()-0.001);
+            hwMap.servo_kralle_drehen.setPosition(hwMap.servo_kralle_drehen.getPosition()-0.05);
         }
         else if (gamepad2.dpad_right) {
-            hwMap.servo_kralle_drehen.setPosition(hwMap.servo_kralle_drehen.getPosition()+0.001);
+            hwMap.servo_kralle_drehen.setPosition(hwMap.servo_kralle_drehen.getPosition()+0.05);
         }
 
-        if (gamepad2.right_bumper){
-            if (kralle_drehen_vorne) {
-                hwMap.servo_kralle_drehen.setPosition(hwMap.kralle_drehen_hinten);
+        // HOCHZIEHEN
+        if (gamepad2.right_bumper || gamepad2.left_bumper){
+            if(!hochziehen){
+                hwMap.motor_hochziehen_links.setPower(0.5);
             }
-            else{
-                hwMap.servo_kralle_drehen.setPosition(hwMap.kralle_drehen_vorne);
+            else {
+                hwMap.motor_hochziehen_rechts.setPower(0.0);
             }
-            kralle_drehen_vorne = !kralle_drehen_vorne;
+            hochziehen = !hochziehen;
+            while (gamepad2.right_bumper || gamepad2.left_bumper){}
         }
-
-
-
         hwMap.motor_hochziehen_links.setPower(gamepad2.left_trigger - gamepad2.right_trigger);
         hwMap.motor_hochziehen_rechts.setPower(gamepad2.left_trigger - gamepad2.right_trigger);
 
@@ -167,12 +157,14 @@ public class FullControl extends BaseTeleOp {
 
         /* ADD TELEMETRY FOR DRIVER DOWN BELOW */
         telemetry.addData("kralle", hwMap.servo_kralle.getPosition());
+        telemetry.addData("kralle_drehen", hwMap.servo_kralle_drehen.getPosition());
         telemetry.addData("erste Achse", hwMap.motor_erste_achse.getCurrentPosition());
         telemetry.addData("zweite Achse", hwMap.servo_zweite_achse.getPosition());
         telemetry.addData("motor_hochziehen", hwMap.motor_hochziehen_links.getPower());
         telemetry.addData("erste_achse_ausgefahren", erste_achse_ausgefahren);
         telemetry.addData("zweite_achse_ausgefahren", zweite_achse_ausgefahren);
         telemetry.addData("kralle_zu", kralle_zu);
+        telemetry.addData("kralle_drehen_vorne", kralle_drehen_vorne);
         telemetry.addData("hochziehen", hochziehen);
 
         telemetry.addLine();
