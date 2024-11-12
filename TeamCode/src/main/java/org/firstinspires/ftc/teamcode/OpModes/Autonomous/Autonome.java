@@ -32,7 +32,8 @@ public class Autonome extends BaseAutonomous {
         // Arm ausfahren
         hwMap.motor_erste_achse.setTargetPosition(hwMap.motor_erste_achse_oben);
         hwMap.servo_zweite_achse.setPosition(hwMap.servo_zweite_achse_ausgefahren);
-        hwMap.robot.drive(new Position2D(-80, 0));
+        //geändert von -80 auf -70 da sich der roboter zu nah an den korb bewegt
+        hwMap.robot.drive(new Position2D(-70, 0));
         schleife();
 
         // zur Box drehen

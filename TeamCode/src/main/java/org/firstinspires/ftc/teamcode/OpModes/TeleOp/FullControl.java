@@ -16,18 +16,23 @@ public class FullControl extends BaseTeleOp {
 
     /**
      *  Gamepad 1: Fahren
+     *      Zusatz:
+     *          a: Speed vorwärts
+     *          b: Speed rückwärts
      *  Gamepad 2: Arm & Kralle:
-     *      a: Erste Achse ganz auf/ganz zu
-     *      b: Zweite Achse ganz auf/ ganz zu
-     *      x: Kralle auf/zu
-     *      y: kralle nach ganz vorne/ganz hinten
-     *      bumper: hochziehen (feste Position)
+     *      Vordefiniert:
+     *          a: erste Achse auf/ zu
+     *          b: zweite Achse auf/ zu
+     *          x: Kralle auf/ zu
+     *          y: kralle nach vorne/ hinten
+     *          bumper: hochziehen
      *
-     *      left_stick_y: erste Achse
-     *      right_stick_y: zweite Achse
-     *      dpad up/down: Kralle
-     *      dpad left/right: Kralle drehen
-     *      trigger: hochziehen (manuell)
+     *      Manuell:
+     *          left_stick_y: erste Achse
+     *          right_stick_y: zweite Achse
+     *          dpad up/down: Kralle (deaktiviert)
+     *          dpad left/right: Kralle drehen
+     *          trigger: hochziehen (manuell)
      */
 
     @Override
@@ -108,12 +113,12 @@ public class FullControl extends BaseTeleOp {
             hwMap.servo_zweite_achse.setPosition(hwMap.servo_zweite_achse.getPosition()-0.01);
         }
 
-        if (gamepad2.dpad_up){
-            hwMap.servo_kralle.setPosition(hwMap.servo_kralle.getPosition()-0.05);
-        }
-        else if (gamepad2.dpad_down) {
-            hwMap.servo_kralle.setPosition(hwMap.servo_kralle.getPosition()+0.05);
-        }
+//        if (gamepad2.dpad_up){
+//            hwMap.servo_kralle.setPosition(hwMap.servo_kralle.getPosition()-0.05);
+//        }
+//        else if (gamepad2.dpad_down) {
+//            hwMap.servo_kralle.setPosition(hwMap.servo_kralle.getPosition()+0.05);
+//        }
 
         if (gamepad2.dpad_left){
             hwMap.servo_kralle_drehen.setPosition(hwMap.servo_kralle_drehen.getPosition()-0.05);
@@ -145,12 +150,25 @@ public class FullControl extends BaseTeleOp {
             while ((gamepad1.left_bumper || gamepad1.right_bumper) && opModeIsActive()) {
             }
         }
-        hwMap.robot.setSpeed(
-                -gamepad1.left_stick_y * (drive_sneak ? hwMap.speed_sneak : hwMap.speed_full),
-                -gamepad1.right_stick_x * (drive_sneak ? hwMap.speed_sneak : hwMap.speed_full),
-                (gamepad1.left_trigger - gamepad1.right_trigger) *
-                        (drive_sneak ? hwMap.speed_sneak : hwMap.speed_full));
-
+        if (gamepad1.a) { // rückwarts
+            hwMap.robot.setSpeed(
+                    -1 * (drive_sneak ? hwMap.speed_sneak : hwMap.speed_full),
+                    0 * (drive_sneak ? hwMap.speed_sneak : hwMap.speed_full),
+                    (gamepad1.left_trigger - gamepad1.right_trigger) *
+                            (drive_sneak ? hwMap.speed_sneak : hwMap.speed_full));
+        } else if (gamepad1.b) { // vorwärts
+            hwMap.robot.setSpeed(
+                    1 * (drive_sneak ? hwMap.speed_sneak : hwMap.speed_full),
+                    0 * (drive_sneak ? hwMap.speed_sneak : hwMap.speed_full),
+                    (gamepad1.left_trigger - gamepad1.right_trigger) *
+                            (drive_sneak ? hwMap.speed_sneak : hwMap.speed_full));
+        } else {
+            hwMap.robot.setSpeed(
+                    -gamepad1.left_stick_y * (drive_sneak ? hwMap.speed_sneak : hwMap.speed_full),
+                    -gamepad1.right_stick_x * (drive_sneak ? hwMap.speed_sneak : hwMap.speed_full),
+                    (gamepad1.left_trigger - gamepad1.right_trigger) *
+                            (drive_sneak ? hwMap.speed_sneak : hwMap.speed_full));
+        }
 
         /* UPDATE THE ROBOT */
         hwMap.robot.step();
