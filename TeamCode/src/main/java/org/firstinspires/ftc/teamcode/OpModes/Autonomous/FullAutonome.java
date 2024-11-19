@@ -2,11 +2,10 @@ package org.firstinspires.ftc.teamcode.OpModes.Autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotor;
-
 import org.firstinspires.ftc.teamcode.Tools.DTypes.Position2D;
 
-@Autonomous(name = "Autonome")
-public class Autonome extends BaseAutonomous {
+@Autonomous(name = "FullAutonome")
+public class FullAutonome extends BaseAutonomous {
 
     @Override
     public void run() {

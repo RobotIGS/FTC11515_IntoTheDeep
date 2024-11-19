@@ -41,15 +41,15 @@ public class HwMap {
     public int motor_erste_achse_unten;
     public int motor_erste_achse_oben;
 
-    public final double servo_zweite_achse_eingefahren = 0.6;
+    public final double servo_zweite_achse_eingefahren = 0.72;
     public final double servo_zweite_achse_mitte = 0.3;
     public final double servo_zweite_achse_ausgefahren = 0.05;
 
     public final double kralle_offen = 0.67;
     public final double kralle_zu = 0.9;
 
-    public final double kralle_drehen_vorne = 0.35;
-    public final double kralle_drehen_hinten = 1.0;
+    public final double kralle_drehen_vorne = 0.1;
+    public final double kralle_drehen_hinten = 0.65;
 
     /* END SECTION */
 

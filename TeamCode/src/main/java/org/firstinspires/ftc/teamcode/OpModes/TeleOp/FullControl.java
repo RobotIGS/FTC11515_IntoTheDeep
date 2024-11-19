@@ -106,6 +106,16 @@ public class FullControl extends BaseTeleOp {
             hwMap.motor_erste_achse.setTargetPosition(hwMap.motor_erste_achse.getCurrentPosition()-25);
         }
 
+        if (hwMap.motor_erste_achse.getCurrentPosition() < 80) {
+            hwMap.motor_erste_achse.setTargetPosition(85);
+        }
+
+        if (hwMap.servo_zweite_achse.getPosition() < hwMap.servo_zweite_achse_ausgefahren) {
+            hwMap.servo_zweite_achse.setPosition(hwMap.servo_zweite_achse_ausgefahren);
+        } else if (hwMap.servo_zweite_achse.getPosition() > hwMap.servo_zweite_achse_eingefahren) {
+            hwMap.servo_zweite_achse.setPosition(hwMap.servo_zweite_achse_eingefahren);
+        }
+
         if (gamepad2.right_stick_y < 0) {
             hwMap.servo_zweite_achse.setPosition(hwMap.servo_zweite_achse.getPosition()+0.01);
         }
@@ -113,12 +123,12 @@ public class FullControl extends BaseTeleOp {
             hwMap.servo_zweite_achse.setPosition(hwMap.servo_zweite_achse.getPosition()-0.01);
         }
 
-//        if (gamepad2.dpad_up){
-//            hwMap.servo_kralle.setPosition(hwMap.servo_kralle.getPosition()-0.05);
-//        }
-//        else if (gamepad2.dpad_down) {
-//            hwMap.servo_kralle.setPosition(hwMap.servo_kralle.getPosition()+0.05);
-//        }
+        if (gamepad2.left_trigger > 0) {
+            hwMap.servo_kralle.setPosition(hwMap.servo_kralle.getPosition() + 0.025 * gamepad2.left_trigger);
+        } else if (gamepad2.right_trigger > 0) {
+            hwMap.servo_kralle.setPosition(hwMap.servo_kralle.getPosition() - 0.025 * gamepad2.right_trigger);
+        }
+
 
         if (gamepad2.dpad_left){
             hwMap.servo_kralle_drehen.setPosition(hwMap.servo_kralle_drehen.getPosition()-0.05);
@@ -128,18 +138,18 @@ public class FullControl extends BaseTeleOp {
         }
 
         // HOCHZIEHEN
-        if (gamepad2.right_bumper || gamepad2.left_bumper){
-            if(!hochziehen){
-                hwMap.motor_hochziehen_links.setPower(0.5);
-            }
-            else {
-                hwMap.motor_hochziehen_rechts.setPower(0.0);
-            }
-            hochziehen = !hochziehen;
-            while (gamepad2.right_bumper || gamepad2.left_bumper){}
-        }
-        hwMap.motor_hochziehen_links.setPower(gamepad2.left_trigger - gamepad2.right_trigger);
-        hwMap.motor_hochziehen_rechts.setPower(gamepad2.left_trigger - gamepad2.right_trigger);
+//        if (gamepad2.right_bumper || gamepad2.left_bumper){
+//            if(!hochziehen){
+//                hwMap.motor_hochziehen_links.setPower(0.5);
+//            }
+//            else {
+//                hwMap.motor_hochziehen_rechts.setPower(0.0);
+//            }
+//            hochziehen = !hochziehen;
+//            while (gamepad2.right_bumper || gamepad2.left_bumper){}
+//        }
+//        hwMap.motor_hochziehen_links.setPower(gamepad2.left_trigger - gamepad2.right_trigger);
+//        hwMap.motor_hochziehen_rechts.setPower(gamepad2.left_trigger - gamepad2.right_trigger);
 
 
         /* END SECTION */
