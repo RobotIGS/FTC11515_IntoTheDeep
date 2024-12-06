@@ -7,10 +7,9 @@ public class FullControl extends BaseTeleOp {
     /* ADD VARIABLES ONLY USED IN FULL CONTROL */
     protected boolean drive_sneak = false; // flag for storing the current speed mode
     protected boolean erste_achse_ausgefahren = false;
-    protected boolean zweite_achse_ausgefahren = false;
-    protected boolean kralle_zu = false;
-    protected boolean hochziehen = false;
-    protected boolean kralle_drehen_vorne = true;
+    protected boolean seilzug_oben = false;
+    protected boolean intake_drehen_vorne = true;
+    protected boolean korb_arm_vorne = true;
 
     /* END SECTION */
 
@@ -22,15 +21,17 @@ public class FullControl extends BaseTeleOp {
      *  Gamepad 2: Arm & Kralle:
      *      Vordefiniert:
      *          a: erste Achse auf/ zu
-     *          b: zweite Achse auf/ zu
-     *          x: Kralle auf/ zu
+     *          b: korb arm vorne/hinten
+     *          x:
      *          y: kralle nach vorne/ hinten
-     *          bumper: hochziehen
+     *          left or right bumper: hochziehen
+     *          trigger left: intake aufnehem
+     *          trigger right: intake ablegen
      *
      *      Manuell:
      *          left_stick_y: erste Achse
-     *          right_stick_y: zweite Achse
-     *          dpad up/down: Kralle (deaktiviert)
+     *          right_stick_y: intake Arm bewegen
+     *          dpad up/down: korb arm bewegen
      *          dpad left/right: Kralle drehen
      *          trigger: hochziehen (manuell)
      */
@@ -47,10 +48,8 @@ public class FullControl extends BaseTeleOp {
     public void runOnce() {
         /* ADD CODE WHICH IS RUN ONCE WHEN PLAY IS PRESSED */
 
-        hwMap.servo_zweite_achse.setPosition(hwMap.servo_zweite_achse_eingefahren);
-        hwMap.servo_kralle.setPosition(hwMap.kralle_offen);
         hwMap.motor_erste_achse.setTargetPosition(hwMap.motor_erste_achse_unten);
-        hwMap.servo_kralle_drehen.setPosition(hwMap.kralle_drehen_vorne);
+        hwMap.servo_intake_drehen.setPosition(hwMap.kralle_drehen_vorne);
 
         /* END SECTION */
     }
@@ -58,6 +57,66 @@ public class FullControl extends BaseTeleOp {
     @Override
     public void runLoop() {
         /* ADD OTHER HARDWARE CONTROLS DOWN BELOW */
+//intake Stein aufnehmen
+        if (gamepad2.left_trigger > 0){
+            hwMap.servo_intake_rechts.setPower(0.1);
+            hwMap.servo_intake_links.setPower(-0.1);
+        }
+//intake Stein ablegen
+        else if (gamepad2.right_trigger > 0){
+            hwMap.servo_intake_rechts.setPower(-0.1);
+            hwMap.servo_intake_links.setPower((0.1));
+        }
+        else {
+            hwMap.servo_intake_rechts.setPower(0);
+            hwMap.servo_intake_links.setPower(0);
+        }
+
+//intake drehen feste Werte
+        if (gamepad2.y){
+            if (intake_drehen_vorne) {
+                hwMap.servo_intake_drehen.setPosition(hwMap.kralle_drehen_hinten);
+            }
+            else{
+                hwMap.servo_intake_drehen.setPosition(hwMap.kralle_drehen_vorne);
+            }
+            intake_drehen_vorne = !intake_drehen_vorne;
+            while (gamepad2.y) {}
+        }
+//intake drehen manuell
+        if (gamepad2.dpad_left){
+            hwMap.servo_intake_drehen.setPosition(hwMap.servo_intake_drehen.getPosition()-0.05);
+        }
+        else if (gamepad2.dpad_right) {
+            hwMap.servo_intake_drehen.setPosition(hwMap.servo_intake_drehen.getPosition()+0.05);
+        }
+//korb arm drehen feste werte
+        if(gamepad2.b){
+            if (korb_arm_vorne) {
+                hwMap.servo_korb_drehen.setPosition(hwMap.korb_arm_vorne);
+            }
+            else{
+                hwMap.servo_korb_drehen.setPosition(hwMap.korb_arm_hinten);
+            }
+            korb_arm_vorne = !korb_arm_vorne;
+            while (gamepad2.b) {}
+        }
+//korb arm drehen manuell
+        if (gamepad2.dpad_up){
+            hwMap.servo_korb_drehen.setPosition(hwMap.servo_korb_drehen.getPosition() + 0.05);
+        }
+        else if (gamepad2.dpad_down){
+            hwMap.servo_korb_drehen.setPosition(hwMap.servo_korb_drehen.getPosition() - 0.05);
+        }
+//erste achse manuell
+        if (gamepad2.left_stick_y < 0) {
+            hwMap.motor_erste_achse.setTargetPosition(hwMap.motor_erste_achse.getCurrentPosition() + 1);
+        }
+        else if (gamepad2.left_stick_y > 0) {
+            hwMap.motor_erste_achse.setTargetPosition(hwMap.motor_erste_achse.getCurrentPosition() - 1);
+        }
+
+//erste Achse feste Werte
         if (gamepad2.a){
             if(!erste_achse_ausgefahren){
                 hwMap.motor_erste_achse.setTargetPosition(hwMap.motor_erste_achse_oben);
@@ -68,88 +127,25 @@ public class FullControl extends BaseTeleOp {
             erste_achse_ausgefahren = !erste_achse_ausgefahren;
             while (gamepad2.a){}
         }
-        if (gamepad2.b){
-            if(!zweite_achse_ausgefahren){
-                hwMap.servo_zweite_achse.setPosition(hwMap.servo_zweite_achse_ausgefahren);
-            }
-            else {
-                hwMap.servo_zweite_achse.setPosition(hwMap.servo_zweite_achse_eingefahren);
-            }
-            zweite_achse_ausgefahren = !zweite_achse_ausgefahren;
-            while (gamepad2.b){}
-        }
-        if (gamepad2.x){
-            if(kralle_zu){
-                hwMap.servo_kralle.setPosition(hwMap.kralle_offen);
-            }
-            else {
-                hwMap.servo_kralle.setPosition(hwMap.kralle_zu);
-            }
-            kralle_zu = !kralle_zu;
-            while (gamepad2.x){}
-        }
-        if (gamepad2.y){
-            if (kralle_drehen_vorne) {
-                hwMap.servo_kralle_drehen.setPosition(hwMap.kralle_drehen_hinten);
-            }
-            else{
-                hwMap.servo_kralle_drehen.setPosition(hwMap.kralle_drehen_vorne);
-            }
-            kralle_drehen_vorne = !kralle_drehen_vorne;
-            while (gamepad2.y) {}
-        }
-
-        if (gamepad2.left_stick_y < 0) {
-            hwMap.motor_erste_achse.setTargetPosition(hwMap.motor_erste_achse.getCurrentPosition()+25);
-        }
-        else if (gamepad2.left_stick_y > 0) {
-            hwMap.motor_erste_achse.setTargetPosition(hwMap.motor_erste_achse.getCurrentPosition()-25);
-        }
-
-        if (hwMap.motor_erste_achse.getCurrentPosition() < 80) {
-            hwMap.motor_erste_achse.setTargetPosition(85);
-        }
-
-        if (hwMap.servo_zweite_achse.getPosition() < hwMap.servo_zweite_achse_ausgefahren) {
-            hwMap.servo_zweite_achse.setPosition(hwMap.servo_zweite_achse_ausgefahren);
-        } else if (hwMap.servo_zweite_achse.getPosition() > hwMap.servo_zweite_achse_eingefahren) {
-            hwMap.servo_zweite_achse.setPosition(hwMap.servo_zweite_achse_eingefahren);
-        }
-
-        if (gamepad2.right_stick_y < 0) {
-            hwMap.servo_zweite_achse.setPosition(hwMap.servo_zweite_achse.getPosition()+0.01);
+//intake arm drehen manuell
+        if(gamepad2.right_stick_y < 0){
+            hwMap.motor_intake_arm_drehen.setTargetPosition(hwMap.motor_intake_arm_drehen.getCurrentPosition() + 1);
         }
         else if (gamepad2.right_stick_y > 0) {
-            hwMap.servo_zweite_achse.setPosition(hwMap.servo_zweite_achse.getPosition()-0.01);
-        }
-
-        if (gamepad2.left_trigger > 0) {
-            hwMap.servo_kralle.setPosition(hwMap.servo_kralle.getPosition() + 0.025 * gamepad2.left_trigger);
-        } else if (gamepad2.right_trigger > 0) {
-            hwMap.servo_kralle.setPosition(hwMap.servo_kralle.getPosition() - 0.025 * gamepad2.right_trigger);
+            hwMap.motor_intake_arm_drehen.setTargetPosition(hwMap.motor_intake_arm_drehen.getCurrentPosition() - 1 );
         }
 
 
-        if (gamepad2.dpad_left){
-            hwMap.servo_kralle_drehen.setPosition(hwMap.servo_kralle_drehen.getPosition()-0.05);
-        }
-        else if (gamepad2.dpad_right) {
-            hwMap.servo_kralle_drehen.setPosition(hwMap.servo_kralle_drehen.getPosition()+0.05);
-        }
+// seilzug
+       if (gamepad2.right_bumper || gamepad2.left_bumper){
+           if(!seilzug_oben){
+                hwMap.motor_seilzug.setPower(0.5);
+            }
 
-        // HOCHZIEHEN
-//        if (gamepad2.right_bumper || gamepad2.left_bumper){
-//            if(!hochziehen){
-//                hwMap.motor_hochziehen_links.setPower(0.5);
-//            }
-//            else {
-//                hwMap.motor_hochziehen_rechts.setPower(0.0);
-//            }
-//            hochziehen = !hochziehen;
-//            while (gamepad2.right_bumper || gamepad2.left_bumper){}
-//        }
-//        hwMap.motor_hochziehen_links.setPower(gamepad2.left_trigger - gamepad2.right_trigger);
-//        hwMap.motor_hochziehen_rechts.setPower(gamepad2.left_trigger - gamepad2.right_trigger);
+            seilzug_oben = !seilzug_oben;
+            while (gamepad2.right_bumper || gamepad2.left_bumper){}
+        }
+        hwMap.motor_seilzug.setPower(gamepad2.left_trigger - gamepad2.right_trigger);
 
 
         /* END SECTION */
@@ -163,13 +159,13 @@ public class FullControl extends BaseTeleOp {
         if (gamepad1.a) { // rückwarts
             hwMap.robot.setSpeed(
                     -1 * (drive_sneak ? hwMap.speed_sneak : hwMap.speed_full),
-                    0 * (drive_sneak ? hwMap.speed_sneak : hwMap.speed_full),
+                    -gamepad1.right_stick_x * (drive_sneak ? hwMap.speed_sneak : hwMap.speed_full),
                     (gamepad1.left_trigger - gamepad1.right_trigger) *
                             (drive_sneak ? hwMap.speed_sneak : hwMap.speed_full));
         } else if (gamepad1.b) { // vorwärts
             hwMap.robot.setSpeed(
                     1 * (drive_sneak ? hwMap.speed_sneak : hwMap.speed_full),
-                    0 * (drive_sneak ? hwMap.speed_sneak : hwMap.speed_full),
+                    -gamepad1.right_stick_x * (drive_sneak ? hwMap.speed_sneak : hwMap.speed_full),
                     (gamepad1.left_trigger - gamepad1.right_trigger) *
                             (drive_sneak ? hwMap.speed_sneak : hwMap.speed_full));
         } else {
@@ -184,16 +180,14 @@ public class FullControl extends BaseTeleOp {
         hwMap.robot.step();
 
         /* ADD TELEMETRY FOR DRIVER DOWN BELOW */
-        telemetry.addData("kralle", hwMap.servo_kralle.getPosition());
-        telemetry.addData("kralle_drehen", hwMap.servo_kralle_drehen.getPosition());
+        telemetry.addData("intake_drehen", hwMap.servo_intake_drehen.getPosition());
         telemetry.addData("erste Achse", hwMap.motor_erste_achse.getCurrentPosition());
-        telemetry.addData("zweite Achse", hwMap.servo_zweite_achse.getPosition());
-        telemetry.addData("motor_hochziehen", hwMap.motor_hochziehen_links.getPower());
+        telemetry.addData("intake_arm_drehen", hwMap.motor_intake_arm_drehen.getCurrentPosition());
+        //telemetry.addData("motor_hochziehen", hwMap.motor_hochziehen_links.getPower());
+        telemetry.addData("korb_drehen", hwMap.servo_korb_drehen.getPosition());
         telemetry.addData("erste_achse_ausgefahren", erste_achse_ausgefahren);
-        telemetry.addData("zweite_achse_ausgefahren", zweite_achse_ausgefahren);
-        telemetry.addData("kralle_zu", kralle_zu);
-        telemetry.addData("kralle_drehen_vorne", kralle_drehen_vorne);
-        telemetry.addData("hochziehen", hochziehen);
+        telemetry.addData("kralle_drehen_vorne", intake_drehen_vorne);
+        telemetry.addData("hochziehen", seilzug_oben);
 
         telemetry.addLine();
         telemetry.addData("SNEAK", drive_sneak);

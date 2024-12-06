@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.Tools.DTypes.Position2D;
 
-@Autonomous(name = "AutonomeAbwerfenMitteParken")
+/*@Autonomous(name = "AutonomeAbwerfenMitteParken")
 public class AutonomeAbwerfenMitteParken extends BaseAutonomous {
 
     @Override
@@ -13,7 +13,7 @@ public class AutonomeAbwerfenMitteParken extends BaseAutonomous {
         hwMap.servo_zweite_achse.setPosition(hwMap.servo_zweite_achse_eingefahren);
         hwMap.servo_kralle.setPosition(hwMap.kralle_zu);
         hwMap.motor_erste_achse.setTargetPosition(hwMap.motor_erste_achse_unten);
-        hwMap.servo_kralle_drehen.setPosition(hwMap.kralle_drehen_hinten);
+        hwMap.servo_intake_drehen.setPosition(hwMap.kralle_drehen_hinten);
 
         hwMap.motor_erste_achse.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
@@ -51,7 +51,7 @@ public class AutonomeAbwerfenMitteParken extends BaseAutonomous {
         // Stein abladen
         hwMap.servo_kralle.setPosition(hwMap.kralle_offen);
         sleep(250);
-        hwMap.servo_kralle_drehen.setPosition(hwMap.kralle_drehen_vorne);
+        hwMap.servo_intake_drehen.setPosition(hwMap.kralle_drehen_vorne);
         sleep(100);
 
         // fahren
@@ -80,4 +80,4 @@ public class AutonomeAbwerfenMitteParken extends BaseAutonomous {
             telemetry.update();
         }
     }
-}
+}*/

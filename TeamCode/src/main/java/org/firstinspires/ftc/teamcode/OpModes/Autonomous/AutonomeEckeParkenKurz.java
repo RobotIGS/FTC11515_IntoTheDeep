@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.OpModes.Autonomous;
+/*package org.firstinspires.ftc.teamcode.OpModes.Autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -35,4 +35,4 @@ public class AutonomeEckeParkenKurz extends BaseAutonomous {
             telemetry.update();
         }
     }
-}
+}*/
