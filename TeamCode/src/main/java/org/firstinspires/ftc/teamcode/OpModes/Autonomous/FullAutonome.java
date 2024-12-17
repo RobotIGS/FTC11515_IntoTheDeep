@@ -9,10 +9,10 @@ public class FullAutonome extends BaseAutonomous {
 
     @Override
     public void run() {
-        hwMap.motor_erste_achse.setTargetPosition(hwMap.motor_erste_achse_unten);
+        hwMap.motor_intake_achse.setTargetPosition(hwMap.motor_erste_achse_unten);
         hwMap.servo_intake_drehen.setPosition(hwMap.kralle_drehen_hinten);
 
-        hwMap.motor_erste_achse.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        hwMap.motor_intake_achse.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         hwMap.robot.navi.setKeepRotation(true);
 
@@ -27,7 +27,7 @@ public class FullAutonome extends BaseAutonomous {
         schleife();
 
         //Seilzug ausfahren
-        hwMap.motor_seilzug.setTargetPosition(hwMap.motor_seilzug_oben);
+        hwMap.motor_aufzug.setTargetPosition(hwMap.motor_seilzug_oben);
 
         //zum Korb fahren
         hwMap.robot.drive(new Position2D(-70, 0));
@@ -38,25 +38,25 @@ public class FullAutonome extends BaseAutonomous {
         schleife();
 
         // Korb nach hinten drehen und Stein ablegen
-        hwMap.servo_korb_drehen.setPosition(hwMap.korb_arm_hinten);
+        hwMap.servo_korb_hoch_runter.setPosition(hwMap.korb_arm_unten);
         sleep(100);
-        hwMap.servo_korb_drehen.setPosition(hwMap.korb_arm_vorne);
+        hwMap.servo_korb_hoch_runter.setPosition(hwMap.korb_arm_oben);
 
         // Seilzug einfahren
-        hwMap.motor_seilzug.setTargetPosition(hwMap.motor_seilzug_unten);
+        hwMap.motor_aufzug.setTargetPosition(hwMap.motor_seilzug_unten);
 
 
         // Vorbereitung zum Greifen vom Boden
         hwMap.robot.rotate(45);
         schleife();
-        hwMap.motor_erste_achse.setTargetPosition(hwMap.motor_erste_achse_unten);
+        hwMap.motor_intake_achse.setTargetPosition(hwMap.motor_erste_achse_unten);
 
         // Fahren
         hwMap.robot.drive(new Position2D(45, 25));
         schleife();
 
         // Stein aufnehmen
-        hwMap.motor_erste_achse.setTargetPosition(hwMap.motor_erste_achse_ganz_unten);
+        hwMap.motor_intake_achse.setTargetPosition(hwMap.motor_erste_achse_ganz_unten);
         hwMap.servo_intake_links.setPower(0.1);
         hwMap.servo_intake_rechts.setPower(-0.1);
         sleep(200);
@@ -72,16 +72,16 @@ public class FullAutonome extends BaseAutonomous {
         schleife();
 
         //Seilzug ausfahren
-        hwMap.motor_seilzug.setTargetPosition(hwMap.motor_seilzug_oben);
+        hwMap.motor_aufzug.setTargetPosition(hwMap.motor_seilzug_oben);
 
 
         //Korb nach hinten drehen und stein ablegen
-        hwMap.servo_korb_drehen.setPosition(hwMap.korb_arm_hinten);
+        hwMap.servo_korb_hoch_runter.setPosition(hwMap.korb_arm_unten);
         sleep(100);
-        hwMap.servo_korb_drehen.setPosition(hwMap.korb_arm_vorne);
+        hwMap.servo_korb_hoch_runter.setPosition(hwMap.korb_arm_oben);
 
         //Seilzug einfahren
-        hwMap.motor_seilzug.setTargetPosition(hwMap.motor_seilzug_unten);
+        hwMap.motor_aufzug.setTargetPosition(hwMap.motor_seilzug_unten);
 
         // Parken
         hwMap.robot.rotate(-45);
@@ -91,7 +91,7 @@ public class FullAutonome extends BaseAutonomous {
         schleife();
 
         // Stange berühren
-        hwMap.motor_erste_achse.setTargetPosition(hwMap.motor_erste_achse_stange);
+        hwMap.motor_intake_achse.setTargetPosition(hwMap.motor_erste_achse_stange);
     }
 
     void schleife() {

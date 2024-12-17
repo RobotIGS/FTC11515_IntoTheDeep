@@ -63,7 +63,7 @@ public class MotorServoTest extends BaseTeleOp {
     public Servo servo1; //intake
     public Servo servo2; //intake
     public Servo servo3; //intakeRotation
-    public Servo servo4;
+
     public Servo servo5;
     //public CRServo crservo;
 
@@ -75,13 +75,13 @@ public class MotorServoTest extends BaseTeleOp {
         //arm of take in right-left Motor
         motor1 = hardwareMap.get(DcMotor.class,"motor1");
         motor1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        motor1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
         motor1.setTargetPosition(0);
 
         //arm of take in up-down Motor
         motor2 = hardwareMap.get(DcMotor.class,"motor2");
         motor2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        motor2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
         motor2.setTargetPosition(0);
 
         //take in Servos
@@ -93,9 +93,8 @@ public class MotorServoTest extends BaseTeleOp {
 
 
         //not used yet
-        servo4 = hardwareMap.get(Servo.class,"servo4");
-        servo5 = hardwareMap.get(Servo.class,"servo5");
-        servo0 = hardwareMap.get(Servo.class,"servo0");
+
+
         //crservo = hardwareMap.get(CRServo.class,"crservo");
     }
 
@@ -110,8 +109,7 @@ public class MotorServoTest extends BaseTeleOp {
         servo3.setPosition(servo3.getPosition() + 1);
         servo3.setPosition(servo3.getPosition() - 0.5);
 
-        servo5.setPosition(servo5.getPosition() + 1);
-        servo0.setPosition(servo0.getPosition() + 1);
+
     }
 
     @Override
