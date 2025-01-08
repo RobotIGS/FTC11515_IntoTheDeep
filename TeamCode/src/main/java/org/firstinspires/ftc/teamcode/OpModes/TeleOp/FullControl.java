@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.OpModes.TeleOp;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 
 @TeleOp(name = "FullControl", group = "FTC")
 public class FullControl extends BaseTeleOp {
@@ -111,12 +112,17 @@ public class FullControl extends BaseTeleOp {
         }
 
         // INTAKE ACHSE manuell
-        if (gamepad2.left_stick_y < 0) {
-            hwMap.motor_intake_achse.setTargetPosition(hwMap.motor_intake_achse.getCurrentPosition() + 1);
+        if(gamepad2.left_stick_y != 0){
+            if(hwMap.motor_intake_achse.getMode()== DcMotor.RunMode.RUN_TO_POSITION){
+                hwMap.motor_intake_achse.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            }
+            hwMap.motor_intake_achse.setPower(gamepad2.left_stick_y * 0.2);
         }
-        else if (gamepad2.left_stick_y > 0) {
-            hwMap.motor_intake_achse.setTargetPosition(hwMap.motor_intake_achse.getCurrentPosition() - 1);
+        else if(hwMap.motor_intake_achse.getMode() == DcMotor.RunMode.RUN_USING_ENCODER){
+            hwMap.motor_intake_achse.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            hwMap.motor_intake_achse.setTargetPosition(hwMap.motor_intake_achse.getCurrentPosition());
         }
+
         // INTAKE ACHSE feste Werte
         if (gamepad2.a){
             if(erste_achse_ausgefahren){
@@ -130,11 +136,15 @@ public class FullControl extends BaseTeleOp {
         }
 
         // INTAKE ARM DREHEN manuell
-        if(gamepad2.right_stick_y < 0){
-            hwMap.motor_intake_arm_drehen.setTargetPosition(hwMap.motor_intake_arm_drehen.getCurrentPosition() + 1);
+        if(gamepad2.right_stick_y != 0){
+            if(hwMap.motor_intake_arm_drehen.getMode()== DcMotor.RunMode.RUN_TO_POSITION){
+                hwMap.motor_intake_arm_drehen.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            }
+            hwMap.motor_intake_arm_drehen.setPower(gamepad2.right_stick_y * 0.2);
         }
-        else if (gamepad2.right_stick_y > 0) {
-            hwMap.motor_intake_arm_drehen.setTargetPosition(hwMap.motor_intake_arm_drehen.getCurrentPosition() - 1 );
+        else if(hwMap.motor_intake_arm_drehen.getMode() == DcMotor.RunMode.RUN_USING_ENCODER){
+            hwMap.motor_intake_arm_drehen.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            hwMap.motor_intake_arm_drehen.setTargetPosition(hwMap.motor_intake_arm_drehen.getCurrentPosition());
         }
 
 
