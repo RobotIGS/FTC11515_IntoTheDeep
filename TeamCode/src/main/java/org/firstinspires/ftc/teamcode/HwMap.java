@@ -45,8 +45,8 @@ public class HwMap {
     public int motor_erste_achse_unten = 0; //unten aber so das der Arm noch über die Steine kann
     public int motor_erste_achse_oben = 200;
 
-    public int motor_seilzug_unten = 0;
-    public int motor_seilzug_oben = 100;
+    public int motor_seilzug_unten = 200;
+    public int motor_seilzug_oben = 10000;
 
     public final double kralle_drehen_vorne = 0.0;
     public final double kralle_drehen_hinten = 0.0;
@@ -79,7 +79,7 @@ public class HwMap {
         motor_intake_achse.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motor_intake_achse.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         motor_intake_achse.setPower(1);
-        //motor_intake_achse.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motor_intake_achse.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         motor_intake_arm_drehen = hardwareMap.get(DcMotor.class,"motor_intake_arm_drehen");
         motor_intake_arm_drehen.setTargetPosition(motor_intake_arm_drehen.getCurrentPosition());
