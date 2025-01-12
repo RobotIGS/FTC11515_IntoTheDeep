@@ -50,8 +50,8 @@ public class HwMap {
     public int motor_aufzug_unten = 200;
     public int motor_aufzug_oben = 10000;
 
-    public int motor_pull_up_unten = 0;
-    public int motor_pull_up_oben = 0;
+    public int motor_intake_arm_drehen_rechts = -280;
+    public int motor_intake_arm_drehen_links = 100;
 
     public final double kralle_drehen_vorne = 0.0;
     public final double kralle_drehen_hinten = 0.0;
@@ -59,8 +59,8 @@ public class HwMap {
     public final double korb_arm_oben = 0.05;
     public final double korb_arm_unten = 0.5;
 
-    public final double servo_haken_drehen_aufklappen = 1;
-    public final double servo_haken_dehen_zuklappen = 0;
+    public final double servo_haken_drehen_aufklappen = 0;
+    public final double servo_haken_drehen_zuklappen = 0.35;
     /* END SECTION */
 
     /**
@@ -102,6 +102,7 @@ public class HwMap {
         servo_intake_rechts = hardwareMap.get(CRServo.class, "crservo_intake_rechts");
         servo_intake_drehen = hardwareMap.get(Servo.class,"servo_intake_drehen");
         servo_korb_hoch_runter = hardwareMap.get(Servo.class, "servo_korb_drehen");
+        servo_haken_drehen = hardwareMap.get(Servo.class, "servo_haken_drehen");
 
         motor_aufzug = hardwareMap.get(DcMotor.class,"motor_aufzug");
         motor_aufzug.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
