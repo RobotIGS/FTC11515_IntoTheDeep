@@ -27,7 +27,7 @@ public class FullAutonome extends BaseAutonomous {
         schleife();
 
         //Seilzug ausfahren
-        hwMap.motor_aufzug.setTargetPosition(hwMap.motor_seilzug_oben);
+        hwMap.motor_aufzug.setTargetPosition(hwMap.motor_aufzug_oben);
 
         //zum Korb fahren
         hwMap.robot.drive(new Position2D(-70, 0));
@@ -43,7 +43,7 @@ public class FullAutonome extends BaseAutonomous {
         hwMap.servo_korb_hoch_runter.setPosition(hwMap.korb_arm_oben);
 
         // Seilzug einfahren
-        hwMap.motor_aufzug.setTargetPosition(hwMap.motor_seilzug_unten);
+        hwMap.motor_aufzug.setTargetPosition(hwMap.motor_aufzug_unten);
 
 
         // Vorbereitung zum Greifen vom Boden
@@ -72,7 +72,7 @@ public class FullAutonome extends BaseAutonomous {
         schleife();
 
         //Seilzug ausfahren
-        hwMap.motor_aufzug.setTargetPosition(hwMap.motor_seilzug_oben);
+        hwMap.motor_aufzug.setTargetPosition(hwMap.motor_aufzug_oben);
 
 
         //Korb nach hinten drehen und stein ablegen
@@ -81,7 +81,7 @@ public class FullAutonome extends BaseAutonomous {
         hwMap.servo_korb_hoch_runter.setPosition(hwMap.korb_arm_oben);
 
         //Seilzug einfahren
-        hwMap.motor_aufzug.setTargetPosition(hwMap.motor_seilzug_unten);
+        hwMap.motor_aufzug.setTargetPosition(hwMap.motor_aufzug_unten);
 
         // Parken
         hwMap.robot.rotate(-45);

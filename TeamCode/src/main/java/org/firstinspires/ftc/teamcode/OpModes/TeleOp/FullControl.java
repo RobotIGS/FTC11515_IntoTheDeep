@@ -22,7 +22,7 @@ public class FullControl extends BaseTeleOp {
      *      Vordefiniert:
      *          a: intake achse hoch/runter
      *          b: korb arm hoch/ runter
-     *          x:
+     *          x: nope
      *          y: kralle nach vorne/ hinten
      *          left or right bumper: hochziehen
      *          trigger left: intake aufnehem
@@ -30,7 +30,7 @@ public class FullControl extends BaseTeleOp {
      *
      *      Manuell:
      *          left_stick_y: erste Achse
-     *          right_stick_y: intake Arm bewegen
+     *          left_stick_x: intake Arm bewegen
      *          dpad up/down: korb arm hoch/ runter
      *          dpad left/right: intake drehen
      *          trigger: hochziehen (manuell)
@@ -116,11 +116,11 @@ public class FullControl extends BaseTeleOp {
         }
 
         // INTAKE PLATTE DREHEN manuell
-        if(gamepad2.right_stick_y != 0){
+        if(gamepad2.left_stick_x != 0){
             if(hwMap.motor_intake_arm_drehen.getMode()== DcMotor.RunMode.RUN_TO_POSITION){
                 hwMap.motor_intake_arm_drehen.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             }
-            hwMap.motor_intake_arm_drehen.setPower(gamepad2.right_stick_y * 0.05);
+            hwMap.motor_intake_arm_drehen.setPower(gamepad2.left_stick_x * 0.05);
         }
         else if(hwMap.motor_intake_arm_drehen.getMode() == DcMotor.RunMode.RUN_USING_ENCODER){
             hwMap.motor_intake_arm_drehen.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -153,12 +153,58 @@ public class FullControl extends BaseTeleOp {
 
         // AUFZUG feste Werte
         if (gamepad2.right_bumper){
-            hwMap.motor_aufzug.setTargetPosition(hwMap.motor_seilzug_oben);
+            hwMap.motor_aufzug.setTargetPosition(hwMap.motor_aufzug_oben);
             while (gamepad2.right_bumper){}
         } else if (gamepad2.left_bumper) {
-           hwMap.motor_aufzug.setTargetPosition(hwMap.motor_seilzug_unten);
+           hwMap.motor_aufzug.setTargetPosition(hwMap.motor_aufzug_unten);
            while (gamepad2.left_bumper){}
         }
+
+        // Aufzug hoch und runter manuell
+        if( gamepad2.right_stick_y != 0 && (((hwMap.motor_aufzug.getCurrentPosition() > hwMap.motor_aufzug_unten || gamepad2.right_stick_y < 0) && (hwMap.motor_aufzug.getCurrentPosition() < hwMap.motor_aufzug_oben || gamepad2.right_stick_y > 0)) || gamepad2.x)) {
+            if (hwMap.motor_aufzug.getMode() == DcMotor.RunMode.RUN_TO_POSITION)
+                hwMap.motor_aufzug.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            hwMap.motor_aufzug.setPower(-gamepad2.right_stick_y);
+        } else if (hwMap.motor_aufzug.getMode() == DcMotor.RunMode.RUN_USING_ENCODER) {
+            if (hwMap.motor_aufzug.getCurrentPosition() < hwMap.motor_aufzug_unten)
+                hwMap.motor_aufzug.setTargetPosition(hwMap.motor_aufzug_unten);
+            if (hwMap.motor_aufzug.getCurrentPosition() > hwMap.motor_aufzug_oben)
+                hwMap.motor_aufzug.setTargetPosition(hwMap.motor_aufzug_oben);
+            hwMap.motor_aufzug.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            hwMap.motor_aufzug.setTargetPosition(hwMap.motor_aufzug.getCurrentPosition());
+        }
+        if (gamepad2.x && gamepad2.y && gamepad2.a && gamepad2.b && gamepad2.dpad_left){
+            int deltaLimit = hwMap.motor_aufzug_oben - hwMap.motor_aufzug_unten;
+            hwMap.motor_aufzug_unten = hwMap.motor_aufzug.getCurrentPosition();
+            hwMap.motor_aufzug_oben = hwMap.motor_aufzug.getCurrentPosition() + deltaLimit;
+        }
+        if (gamepad2.a && gamepad2.b && gamepad2.x && gamepad2.y && gamepad2.dpad_right){
+            double mittelLimit = (hwMap.servo_haken_dehen_zuklappen + hwMap.servo_haken_drehen_aufklappen)/2;
+            double position = mittelLimit - hwMap.servo_haken_drehen.getPosition();
+            if (position < 0){
+                hwMap.servo_haken_drehen.setPosition(hwMap.servo_haken_drehen_aufklappen);
+            }
+            else {
+                hwMap.servo_haken_drehen.setPosition(hwMap.servo_haken_drehen_aufklappen);
+            }
+
+        }
+
+        // pull up Motor manuel
+        if( gamepad2.right_stick_x != 0 ) {
+            if (hwMap.motor_pull_up.getMode() == DcMotor.RunMode.RUN_TO_POSITION)
+                hwMap.motor_pull_up.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            hwMap.motor_pull_up.setPower(-gamepad2.right_stick_x);
+        } else if (hwMap.motor_pull_up.getMode() == DcMotor.RunMode.RUN_USING_ENCODER) {
+            if (hwMap.motor_pull_up.getCurrentPosition() < hwMap.motor_pull_up_unten)
+                hwMap.motor_pull_up.setTargetPosition(hwMap.motor_pull_up_unten);
+            if (hwMap.motor_pull_up.getCurrentPosition() > hwMap.motor_pull_up_oben)
+                hwMap.motor_pull_up.setTargetPosition(hwMap.motor_pull_up_oben);
+            hwMap.motor_pull_up.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            hwMap.motor_pull_up.setTargetPosition(hwMap.motor_pull_up.getCurrentPosition());
+        }
+
+
 
 
         /* END SECTION */
@@ -169,6 +215,7 @@ public class FullControl extends BaseTeleOp {
             while ((gamepad1.left_bumper || gamepad1.right_bumper) && opModeIsActive()) {
             }
         }
+
         if (gamepad1.a) { // rückwarts
             hwMap.robot.setSpeed(
                     -1 * (drive_sneak ? hwMap.speed_sneak : hwMap.speed_full),
@@ -196,6 +243,7 @@ public class FullControl extends BaseTeleOp {
         telemetry.addData("motor_intake_achse", hwMap.motor_intake_achse.getCurrentPosition());
         telemetry.addData("motor_intake_arm_drehen", hwMap.motor_intake_arm_drehen.getCurrentPosition());
         telemetry.addData("motor_aufzug", hwMap.motor_aufzug.getCurrentPosition());
+        telemetry.addData("motor_pull_up", hwMap.motor_pull_up.getCurrentPosition());
         telemetry.addLine();
         telemetry.addData("servo_intake_rechts", hwMap.servo_intake_rechts.getPower());
         telemetry.addData("servo_intake_links", hwMap.servo_intake_links.getPower());

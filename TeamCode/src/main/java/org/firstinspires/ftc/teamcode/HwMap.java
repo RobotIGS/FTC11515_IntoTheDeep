@@ -21,11 +21,13 @@ public class HwMap {
     public DcMotor motor_intake_achse;
     public DcMotor motor_intake_arm_drehen;
     public DcMotor motor_aufzug;
+    public DcMotor motor_pull_up;
 
     public CRServo servo_intake_rechts;
     public CRServo servo_intake_links;
     public Servo servo_intake_drehen;
     public Servo servo_korb_hoch_runter;
+    public Servo servo_haken_drehen;
 
     /* END SECTION */
 
@@ -45,8 +47,11 @@ public class HwMap {
     public int motor_erste_achse_unten = 0; //unten aber so das der Arm noch über die Steine kann
     public int motor_erste_achse_oben = 200;
 
-    public int motor_seilzug_unten = 200;
-    public int motor_seilzug_oben = 10000;
+    public int motor_aufzug_unten = 200;
+    public int motor_aufzug_oben = 10000;
+
+    public int motor_pull_up_unten = 0;
+    public int motor_pull_up_oben = 0;
 
     public final double kralle_drehen_vorne = 0.0;
     public final double kralle_drehen_hinten = 0.0;
@@ -54,6 +59,8 @@ public class HwMap {
     public final double korb_arm_oben = 0.05;
     public final double korb_arm_unten = 0.5;
 
+    public final double servo_haken_drehen_aufklappen = 1;
+    public final double servo_haken_dehen_zuklappen = 0;
     /* END SECTION */
 
     /**
@@ -75,15 +82,15 @@ public class HwMap {
 
         /* INITIALIZE YOUR HARDWARE DOWN BELOW */
         motor_intake_achse = hardwareMap.get(DcMotor.class,"motor_intake_achse");
-        motor_intake_achse.setTargetPosition(motor_intake_achse.getCurrentPosition());
         motor_intake_achse.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motor_intake_achse.setTargetPosition(motor_intake_achse.getCurrentPosition());
         motor_intake_achse.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         motor_intake_achse.setPower(1);
         motor_intake_achse.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         motor_intake_arm_drehen = hardwareMap.get(DcMotor.class,"motor_intake_arm_drehen");
-        motor_intake_arm_drehen.setTargetPosition(motor_intake_arm_drehen.getCurrentPosition());
         motor_intake_arm_drehen.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motor_intake_arm_drehen.setTargetPosition(motor_intake_arm_drehen.getCurrentPosition());
         motor_intake_arm_drehen.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         motor_intake_arm_drehen.setPower(1);
         motor_intake_arm_drehen.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -97,11 +104,18 @@ public class HwMap {
         servo_korb_hoch_runter = hardwareMap.get(Servo.class, "servo_korb_drehen");
 
         motor_aufzug = hardwareMap.get(DcMotor.class,"motor_aufzug");
-        motor_aufzug.setTargetPosition(motor_aufzug.getCurrentPosition());
         motor_aufzug.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motor_aufzug.setTargetPosition(motor_aufzug.getCurrentPosition());
         motor_aufzug.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         motor_aufzug.setPower(1);
         motor_aufzug.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        motor_pull_up = hardwareMap.get(DcMotor.class, "motor_pull_up");
+        motor_pull_up.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motor_pull_up.setTargetPosition(motor_pull_up.getCurrentPosition());
+        motor_pull_up.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motor_pull_up.setPower(1);
+        motor_pull_up.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         /* END SECTION */
     }
