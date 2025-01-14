@@ -1,3 +1,4 @@
+
 package org.firstinspires.ftc.teamcode.OpModes.Autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -5,17 +6,14 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.Tools.DTypes.Position2D;
 
-/*@Autonomous(name = "AutonomeAbwerfenMitteParken")
+@Autonomous(name = "AutonomeAbwerfenMitteParken")
 public class AutonomeAbwerfenMitteParken extends BaseAutonomous {
 
     @Override
     public void run() {
-        hwMap.servo_zweite_achse.setPosition(hwMap.servo_zweite_achse_eingefahren);
-        hwMap.servo_kralle.setPosition(hwMap.kralle_zu);
-        hwMap.motor_erste_achse.setTargetPosition(hwMap.motor_erste_achse_unten);
-        hwMap.servo_intake_drehen.setPosition(hwMap.kralle_drehen_hinten);
-
-        hwMap.motor_erste_achse.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        hwMap.motor_intake_achse.setTargetPosition(hwMap.motor_erste_achse_unten);
+        hwMap.servo_intake_drehen.setPosition(hwMap.intake_drehen_vorne);
+        hwMap.servo_korb_hoch_runter.setPosition(hwMap.korb_arm_unten);
 
         hwMap.robot.navi.setKeepRotation(true);
 
@@ -30,10 +28,8 @@ public class AutonomeAbwerfenMitteParken extends BaseAutonomous {
         hwMap.robot.rotate(-90);
         schleife();
 
-        // Arm ausfahren
-        hwMap.motor_erste_achse.setTargetPosition(hwMap.motor_erste_achse_oben);
-        sleep(250);
-        hwMap.servo_zweite_achse.setPosition(hwMap.servo_zweite_achse_ausgefahren);
+        // Aufzug ausfahren
+        hwMap.motor_aufzug.setTargetPosition(hwMap.motor_aufzug_oben);
 
         // fahren
         hwMap.robot.drive(new Position2D(-50, 0));
@@ -46,25 +42,22 @@ public class AutonomeAbwerfenMitteParken extends BaseAutonomous {
         // fahren
         hwMap.robot.drive(new Position2D(-30, 0));
         schleife();
+        sleep(2000);
+
+        // Stein abladen und Korb anschließend einfahren
+        hwMap.servo_korb_hoch_runter.setPosition(hwMap.korb_arm_oben);
+        sleep(250);
+        hwMap.servo_korb_hoch_runter.setPosition(hwMap.korb_arm_unten);
         sleep(250);
 
-        // Stein abladen
-        hwMap.servo_kralle.setPosition(hwMap.kralle_offen);
-        sleep(250);
-        hwMap.servo_intake_drehen.setPosition(hwMap.kralle_drehen_vorne);
+
+        // Aufzug einfahren
+        hwMap.motor_aufzug.setTargetPosition(hwMap.motor_aufzug_unten);
         sleep(100);
 
         // fahren
         hwMap.robot.drive(new Position2D(25, 0));
         schleife();
-        sleep(100);
-
-        // 2. Achse einfahren
-        hwMap.servo_zweite_achse.setPosition(hwMap.servo_zweite_achse_mitte);
-        sleep(100);
-
-        // 1. Achse einfahren
-        hwMap.motor_erste_achse.setTargetPosition(hwMap.motor_erste_achse_unten);
         sleep(100);
 
         // nach vorne fahren
@@ -80,4 +73,4 @@ public class AutonomeAbwerfenMitteParken extends BaseAutonomous {
             telemetry.update();
         }
     }
-}*/
+}

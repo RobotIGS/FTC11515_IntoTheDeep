@@ -53,8 +53,8 @@ public class HwMap {
     public int motor_intake_arm_drehen_rechts = -280;
     public int motor_intake_arm_drehen_links = 100;
 
-    public final double kralle_drehen_vorne = 0.0;
-    public final double kralle_drehen_hinten = 0.0;
+    public final double intake_drehen_vorne = 0.0;
+    public final double intake_drehen_hinten = 0.0;
 
     public final double korb_arm_oben = 0.05;
     public final double korb_arm_unten = 0.5;

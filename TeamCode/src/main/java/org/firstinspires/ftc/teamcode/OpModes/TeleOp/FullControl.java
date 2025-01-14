@@ -15,22 +15,30 @@ public class FullControl extends BaseTeleOp {
      *      Zusatz:
      *          a: Speed vorwärts
      *          b: Speed rückwärts
-     *  Gamepad 2: Arm & Kralle:
+     *  Gamepad 2:
      *      Vordefiniert:
-     *          a: intake achse hoch/runter
-     *          b: korb arm hoch/ runter
-     *          x: nope
-     *          y: kralle nach vorne/ hinten
-     *          left or right bumper: hochziehen
-     *          trigger left: intake aufnehem
-     *          trigger right: intake ablegen
+     *          x: OVERRIDE LIMITS
+     *          y: intake drehen vorne/ hinten
+     *          a: intake achse hoch/ runter
+     *          b: Korb hoch/ runter
+     *          dpad left: intake Halterung drehen
+     *          dpad right: intake Halterung drehen
+     *          dpad up: Korb hoch
+     *          dpad down: Korb runter
+     *          bumper left: aufzug hoch/ runter
+     *          bumper right:
+     *          trigger left: intake pixel aufnehmen
+     *          trigger right: intake pixel ablegen
+     *
+     *          bumper + trigger: Haken klappen
+     *          x, a, left_bumper: intake arm drehen limits
+     *          y, b, left_trigger: aufzug limits
      *
      *      Manuell:
-     *          left_stick_y: erste Achse
-     *          left_stick_x: intake Arm bewegen
-     *          dpad up/down: korb arm hoch/ runter
-     *          dpad left/right: intake drehen
-     *          trigger: hochziehen (manuell)
+     *          left stick x: intake Achse drehen
+     *          left stick y: intake Achse
+     *          right stick x: hochziehen
+     *          right stick y: Aufzug
      */
 
     @Override
@@ -45,7 +53,7 @@ public class FullControl extends BaseTeleOp {
     public void runOnce() {
         /* ADD CODE WHICH IS RUN ONCE WHEN PLAY IS PRESSED */
         hwMap.motor_intake_achse.setTargetPosition(hwMap.motor_erste_achse_unten);
-        hwMap.servo_intake_drehen.setPosition(hwMap.kralle_drehen_vorne);
+        hwMap.servo_intake_drehen.setPosition(hwMap.intake_drehen_vorne);
         hwMap.servo_korb_hoch_runter.setPosition(hwMap.korb_arm_unten);
 
         /* END SECTION */
@@ -71,13 +79,13 @@ public class FullControl extends BaseTeleOp {
 
         // INTAKE KOPF DREHEN feste Werte
         if (gamepad2.y){
-            double position = ((hwMap.kralle_drehen_hinten + hwMap.kralle_drehen_vorne)/2) - hwMap.servo_intake_drehen.getPosition();
+            double position = ((hwMap.intake_drehen_hinten + hwMap.intake_drehen_vorne)/2) - hwMap.servo_intake_drehen.getPosition();
 
             if (position > 0) {
-                hwMap.servo_intake_drehen.setPosition(hwMap.kralle_drehen_hinten);
+                hwMap.servo_intake_drehen.setPosition(hwMap.intake_drehen_hinten);
             }
             else{
-                hwMap.servo_intake_drehen.setPosition(hwMap.kralle_drehen_vorne);
+                hwMap.servo_intake_drehen.setPosition(hwMap.intake_drehen_vorne);
             }
         }
         // INTAKE KOPF DREHEN manuell
@@ -125,7 +133,7 @@ public class FullControl extends BaseTeleOp {
             hwMap.motor_intake_arm_drehen.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             hwMap.motor_intake_arm_drehen.setTargetPosition(hwMap.motor_intake_arm_drehen.getCurrentPosition());
         }
-        if (gamepad2.x && gamepad2.y && gamepad2.a && gamepad2.b && gamepad2.dpad_left){
+        if (gamepad2.x && gamepad2.a && gamepad2.left_bumper){
             int deltaLimit = hwMap.motor_intake_arm_drehen_links - hwMap.motor_intake_arm_drehen_rechts;
             hwMap.motor_intake_arm_drehen_rechts = hwMap.motor_intake_arm_drehen.getCurrentPosition();
             hwMap.motor_intake_arm_drehen_links = hwMap.motor_intake_arm_drehen.getCurrentPosition() + deltaLimit;
@@ -177,7 +185,7 @@ public class FullControl extends BaseTeleOp {
             hwMap.motor_aufzug.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             hwMap.motor_aufzug.setTargetPosition(hwMap.motor_aufzug.getCurrentPosition());
         }
-        if (gamepad2.x && gamepad2.y && gamepad2.a && gamepad2.b && gamepad2.dpad_left){
+        if (gamepad2.b && gamepad2.y && gamepad2.left_trigger > 0){
             int deltaLimit = hwMap.motor_aufzug_oben - hwMap.motor_aufzug_unten;
             hwMap.motor_aufzug_unten = hwMap.motor_aufzug.getCurrentPosition();
             hwMap.motor_aufzug_oben = hwMap.motor_aufzug.getCurrentPosition() + deltaLimit;
@@ -207,9 +215,6 @@ public class FullControl extends BaseTeleOp {
             hwMap.motor_pull_up.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             hwMap.motor_pull_up.setTargetPosition(hwMap.motor_pull_up.getCurrentPosition());
         }
-
-
-
 
         /* END SECTION */
 

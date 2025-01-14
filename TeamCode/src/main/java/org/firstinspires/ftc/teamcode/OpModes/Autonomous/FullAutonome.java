@@ -10,7 +10,7 @@ public class FullAutonome extends BaseAutonomous {
     @Override
     public void run() {
         hwMap.motor_intake_achse.setTargetPosition(hwMap.motor_erste_achse_unten);
-        hwMap.servo_intake_drehen.setPosition(hwMap.kralle_drehen_hinten);
+        hwMap.servo_intake_drehen.setPosition(hwMap.intake_drehen_hinten);
 
         hwMap.motor_intake_achse.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
