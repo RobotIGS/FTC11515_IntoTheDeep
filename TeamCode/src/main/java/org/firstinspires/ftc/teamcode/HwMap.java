@@ -42,10 +42,10 @@ public class HwMap {
     public final float rotation_accuracy = 4.0f;
 
     // values
-    public int motor_erste_achse_ganz_unten = 0; //ganz unten um Stein aufzuheben
-    public int motor_erste_achse_stange = 0; //arm nur zur hälfe ausfahren damit wir die Stange berühren
-    public int motor_erste_achse_unten = 0; //unten aber so das der Arm noch über die Steine kann
-    public int motor_erste_achse_oben = 200;
+    public int motor_achse_ganz_unten = 0; //ganz unten um Stein aufzuheben //TODO
+    public int motor_achse_stange = 0; //arm nur zur hälfe ausfahren damit wir die Stange berühren //TODO
+    public int motor_achse_unten = 0; //unten aber so das der Arm noch über die Steine kann //TODO
+    public int motor_achse_oben = 200;
 
     public int motor_aufzug_unten = 200;
     public int motor_aufzug_oben = 10000;
@@ -53,11 +53,11 @@ public class HwMap {
     public int motor_intake_arm_drehen_rechts = -280;
     public int motor_intake_arm_drehen_links = 100;
 
-    public final double intake_drehen_vorne = 0.0;
-    public final double intake_drehen_hinten = 0.0;
+    public final double servo_intake_drehen_vorne = 0.0; //TODO
+    public final double servo_intake_drehen_hinten = 0.0; //TODO
 
-    public final double korb_arm_oben = 0.05;
-    public final double korb_arm_unten = 0.5;
+    public final double servo_korb_arm_oben = 0.05;
+    public final double servo_korb_arm_unten = 0.5;
 
     public final double servo_haken_drehen_aufklappen = 0;
     public final double servo_haken_drehen_zuklappen = 0.35;
@@ -95,8 +95,8 @@ public class HwMap {
         motor_intake_arm_drehen.setPower(1);
         motor_intake_arm_drehen.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        motor_erste_achse_unten = motor_intake_achse.getCurrentPosition() + 150;
-        motor_erste_achse_oben = motor_intake_achse.getCurrentPosition() + 650;
+        motor_achse_unten = motor_intake_achse.getCurrentPosition() + 150;
+        motor_achse_oben = motor_intake_achse.getCurrentPosition() + 650;
 
         servo_intake_links = hardwareMap.get(CRServo.class, "crservo_intake_links");
         servo_intake_rechts = hardwareMap.get(CRServo.class, "crservo_intake_rechts");

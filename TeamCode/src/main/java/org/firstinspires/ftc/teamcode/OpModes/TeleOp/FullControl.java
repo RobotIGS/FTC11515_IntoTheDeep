@@ -52,9 +52,9 @@ public class FullControl extends BaseTeleOp {
     @Override
     public void runOnce() {
         /* ADD CODE WHICH IS RUN ONCE WHEN PLAY IS PRESSED */
-        hwMap.motor_intake_achse.setTargetPosition(hwMap.motor_erste_achse_unten);
-        hwMap.servo_intake_drehen.setPosition(hwMap.intake_drehen_vorne);
-        hwMap.servo_korb_hoch_runter.setPosition(hwMap.korb_arm_unten);
+        hwMap.motor_intake_achse.setTargetPosition(hwMap.motor_achse_unten);
+        hwMap.servo_intake_drehen.setPosition(hwMap.servo_intake_drehen_vorne);
+        hwMap.servo_korb_hoch_runter.setPosition(hwMap.servo_korb_arm_unten);
 
         /* END SECTION */
     }
@@ -79,13 +79,13 @@ public class FullControl extends BaseTeleOp {
 
         // INTAKE KOPF DREHEN feste Werte
         if (gamepad2.y){
-            double position = ((hwMap.intake_drehen_hinten + hwMap.intake_drehen_vorne)/2) - hwMap.servo_intake_drehen.getPosition();
+            double position = ((hwMap.servo_intake_drehen_hinten + hwMap.servo_intake_drehen_vorne)/2) - hwMap.servo_intake_drehen.getPosition();
 
             if (position > 0) {
-                hwMap.servo_intake_drehen.setPosition(hwMap.intake_drehen_hinten);
+                hwMap.servo_intake_drehen.setPosition(hwMap.servo_intake_drehen_hinten);
             }
             else{
-                hwMap.servo_intake_drehen.setPosition(hwMap.intake_drehen_vorne);
+                hwMap.servo_intake_drehen.setPosition(hwMap.servo_intake_drehen_vorne);
             }
         }
         // INTAKE KOPF DREHEN manuell
@@ -98,13 +98,13 @@ public class FullControl extends BaseTeleOp {
 
         // INTAKE ACHSE HOCH RUNTER feste Werte
         if (gamepad2.a){
-            double position = ((float) (hwMap.motor_erste_achse_unten + hwMap.motor_erste_achse_oben)/2) - hwMap.motor_intake_achse.getCurrentPosition();
+            double position = ((float) (hwMap.motor_achse_unten + hwMap.motor_achse_oben)/2) - hwMap.motor_intake_achse.getCurrentPosition();
 
             if(position < 0){
-                hwMap.motor_intake_achse.setTargetPosition(hwMap.motor_erste_achse_unten);
+                hwMap.motor_intake_achse.setTargetPosition(hwMap.motor_achse_unten);
             }
             else {
-                hwMap.motor_intake_achse.setTargetPosition(hwMap.motor_erste_achse_oben);
+                hwMap.motor_intake_achse.setTargetPosition(hwMap.motor_achse_oben);
             }
         }
 
@@ -143,12 +143,12 @@ public class FullControl extends BaseTeleOp {
 
         // KORB ARM HOCH RUNTER feste werte
         if(gamepad2.b){
-            double position = ((hwMap.korb_arm_oben + hwMap.korb_arm_unten)/2) - hwMap.servo_korb_hoch_runter.getPosition();
+            double position = ((hwMap.servo_korb_arm_oben + hwMap.servo_korb_arm_unten)/2) - hwMap.servo_korb_hoch_runter.getPosition();
             if (position > 0) {
-                hwMap.servo_korb_hoch_runter.setPosition(hwMap.korb_arm_oben);
+                hwMap.servo_korb_hoch_runter.setPosition(hwMap.servo_korb_arm_oben);
             }
             else{
-                hwMap.servo_korb_hoch_runter.setPosition(hwMap.korb_arm_unten);
+                hwMap.servo_korb_hoch_runter.setPosition(hwMap.servo_korb_arm_unten);
             }
         }
 

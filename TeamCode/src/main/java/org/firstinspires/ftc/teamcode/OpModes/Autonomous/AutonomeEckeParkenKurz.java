@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.OpModes.Autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.Tools.DTypes.Position2D;
 
@@ -10,9 +9,9 @@ public class AutonomeEckeParkenKurz extends BaseAutonomous {
 
     @Override
     public void run() {
-        hwMap.motor_intake_achse.setTargetPosition(hwMap.motor_erste_achse_unten);
-        hwMap.servo_intake_drehen.setPosition(hwMap.intake_drehen_vorne);
-        hwMap.servo_korb_hoch_runter.setPosition(hwMap.korb_arm_unten);
+        hwMap.motor_intake_achse.setTargetPosition(hwMap.motor_achse_unten);
+        hwMap.servo_intake_drehen.setPosition(hwMap.servo_intake_drehen_vorne);
+        hwMap.servo_korb_hoch_runter.setPosition(hwMap.servo_korb_arm_unten);
 
 
         // START: Kante zwischen zwei und drei von links

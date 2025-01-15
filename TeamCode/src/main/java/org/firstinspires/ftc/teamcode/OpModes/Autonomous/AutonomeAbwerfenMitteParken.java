@@ -2,7 +2,6 @@
 package org.firstinspires.ftc.teamcode.OpModes.Autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.Tools.DTypes.Position2D;
 
@@ -11,14 +10,14 @@ public class AutonomeAbwerfenMitteParken extends BaseAutonomous {
 
     @Override
     public void run() {
-        hwMap.motor_intake_achse.setTargetPosition(hwMap.motor_erste_achse_unten);
-        hwMap.servo_intake_drehen.setPosition(hwMap.intake_drehen_vorne);
-        hwMap.servo_korb_hoch_runter.setPosition(hwMap.korb_arm_unten);
+        hwMap.motor_intake_achse.setTargetPosition(hwMap.motor_achse_unten);
+        hwMap.servo_intake_drehen.setPosition(hwMap.servo_intake_drehen_vorne);
+        hwMap.servo_korb_hoch_runter.setPosition(hwMap.servo_korb_arm_unten);
 
         hwMap.robot.navi.setKeepRotation(true);
 
 
-        // START: 2. Kachel an Kante zur 3. Kachel
+        // STARTPOSITION: 2. Kachel an Kante zur 3. Kachel
 
         // nach vorne fahren
         hwMap.robot.drive(new Position2D(20, 0));
@@ -42,12 +41,12 @@ public class AutonomeAbwerfenMitteParken extends BaseAutonomous {
         // fahren
         hwMap.robot.drive(new Position2D(-30, 0));
         schleife();
-        sleep(2000);
+        sleep(300);
 
         // Stein abladen und Korb anschließend einfahren
-        hwMap.servo_korb_hoch_runter.setPosition(hwMap.korb_arm_oben);
-        sleep(250);
-        hwMap.servo_korb_hoch_runter.setPosition(hwMap.korb_arm_unten);
+        hwMap.servo_korb_hoch_runter.setPosition(hwMap.servo_korb_arm_oben);
+        sleep(800);
+        hwMap.servo_korb_hoch_runter.setPosition(hwMap.servo_korb_arm_unten);
         sleep(250);
 
 
