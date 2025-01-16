@@ -26,11 +26,10 @@ public class FullControl extends BaseTeleOp {
      *          dpad up: Korb hoch
      *          dpad down: Korb runter
      *          bumper left: aufzug hoch/ runter
-     *          bumper right:
+     *          bumper right: Haken klappen
      *          trigger left: intake pixel aufnehmen
      *          trigger right: intake pixel ablegen
      *
-     *          bumper + trigger: Haken klappen
      *          x, a, left_bumper: intake arm drehen limits
      *          y, b, left_trigger: aufzug limits
      *
@@ -52,9 +51,6 @@ public class FullControl extends BaseTeleOp {
     @Override
     public void runOnce() {
         /* ADD CODE WHICH IS RUN ONCE WHEN PLAY IS PRESSED */
-        hwMap.motor_intake_achse.setTargetPosition(hwMap.motor_achse_unten);
-        hwMap.servo_intake_drehen.setPosition(hwMap.servo_intake_drehen_vorne);
-        hwMap.servo_korb_hoch_runter.setPosition(hwMap.servo_korb_arm_unten);
 
         /* END SECTION */
     }
@@ -79,13 +75,13 @@ public class FullControl extends BaseTeleOp {
 
         // INTAKE KOPF DREHEN feste Werte
         if (gamepad2.y){
-            double position = ((hwMap.servo_intake_drehen_hinten + hwMap.servo_intake_drehen_vorne)/2) - hwMap.servo_intake_drehen.getPosition();
+            double position = ((hwMap.servo_intake_drehen_abgeben + hwMap.servo_intake_drehen_aufnehmen)/2) - hwMap.servo_intake_drehen.getPosition();
 
             if (position > 0) {
-                hwMap.servo_intake_drehen.setPosition(hwMap.servo_intake_drehen_hinten);
+                hwMap.servo_intake_drehen.setPosition(hwMap.servo_intake_drehen_abgeben);
             }
             else{
-                hwMap.servo_intake_drehen.setPosition(hwMap.servo_intake_drehen_vorne);
+                hwMap.servo_intake_drehen.setPosition(hwMap.servo_intake_drehen_aufnehmen);
             }
         }
         // INTAKE KOPF DREHEN manuell
@@ -98,13 +94,13 @@ public class FullControl extends BaseTeleOp {
 
         // INTAKE ACHSE HOCH RUNTER feste Werte
         if (gamepad2.a){
-            double position = ((float) (hwMap.motor_achse_unten + hwMap.motor_achse_oben)/2) - hwMap.motor_intake_achse.getCurrentPosition();
+            double position = ((float) (hwMap.motor_achse_unten + hwMap.motor_achse_ueber_box)/2) - hwMap.motor_intake_achse.getCurrentPosition();
 
             if(position < 0){
                 hwMap.motor_intake_achse.setTargetPosition(hwMap.motor_achse_unten);
             }
             else {
-                hwMap.motor_intake_achse.setTargetPosition(hwMap.motor_achse_oben);
+                hwMap.motor_intake_achse.setTargetPosition(hwMap.motor_achse_ueber_box);
             }
         }
 
@@ -124,7 +120,7 @@ public class FullControl extends BaseTeleOp {
         if( gamepad2.left_stick_x != 0 && (((hwMap.motor_intake_arm_drehen.getCurrentPosition() > hwMap.motor_intake_arm_drehen_rechts || gamepad2.left_stick_x > 0) && (hwMap.motor_intake_arm_drehen.getCurrentPosition() < hwMap.motor_intake_arm_drehen_links || gamepad2.left_stick_x < 0)) || gamepad2.x)) {
             if (hwMap.motor_intake_arm_drehen.getMode() == DcMotor.RunMode.RUN_TO_POSITION)
                 hwMap.motor_intake_arm_drehen.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            hwMap.motor_intake_arm_drehen.setPower(gamepad2.left_stick_x * 0.25);
+            hwMap.motor_intake_arm_drehen.setPower(gamepad2.left_stick_x * 0.2);
         } else if (hwMap.motor_intake_arm_drehen.getMode() == DcMotor.RunMode.RUN_USING_ENCODER) {
             if (hwMap.motor_intake_arm_drehen.getCurrentPosition() < hwMap.motor_intake_arm_drehen_rechts)
                 hwMap.motor_intake_arm_drehen.setTargetPosition(hwMap.motor_intake_arm_drehen_rechts);
@@ -134,9 +130,9 @@ public class FullControl extends BaseTeleOp {
             hwMap.motor_intake_arm_drehen.setTargetPosition(hwMap.motor_intake_arm_drehen.getCurrentPosition());
         }
         if (gamepad2.x && gamepad2.a && gamepad2.left_bumper){
-            int deltaLimit = hwMap.motor_intake_arm_drehen_links - hwMap.motor_intake_arm_drehen_rechts;
-            hwMap.motor_intake_arm_drehen_rechts = hwMap.motor_intake_arm_drehen.getCurrentPosition();
-            hwMap.motor_intake_arm_drehen_links = hwMap.motor_intake_arm_drehen.getCurrentPosition() + deltaLimit;
+            int halbesDeltaLimit = (hwMap.motor_intake_arm_drehen_links - hwMap.motor_intake_arm_drehen_rechts) / 2;
+            hwMap.motor_intake_arm_drehen_rechts = hwMap.motor_intake_arm_drehen.getCurrentPosition() - halbesDeltaLimit;
+            hwMap.motor_intake_arm_drehen_links = hwMap.motor_intake_arm_drehen.getCurrentPosition() + halbesDeltaLimit;
         }
 
         // -----------------------------------------------------------------
@@ -192,7 +188,7 @@ public class FullControl extends BaseTeleOp {
         }
 
         // Haken kippen
-        if (gamepad2.right_bumper && gamepad2.left_bumper && gamepad2.left_trigger > 0 && gamepad2.right_trigger > 0){
+        if (gamepad2.right_bumper){
             double position = ((hwMap.servo_haken_drehen_zuklappen + hwMap.servo_haken_drehen_aufklappen)/2) - hwMap.servo_haken_drehen.getPosition();
             if (position > 0){
                 hwMap.servo_haken_drehen.setPosition(hwMap.servo_haken_drehen_zuklappen);
@@ -201,7 +197,7 @@ public class FullControl extends BaseTeleOp {
                 hwMap.servo_haken_drehen.setPosition(hwMap.servo_haken_drehen_aufklappen);
             }
 
-            while (gamepad2.right_bumper && gamepad2.left_bumper && gamepad2.left_trigger > 0 && gamepad2.right_trigger > 0){}
+            while (gamepad2.right_bumper){}
 
         }
 

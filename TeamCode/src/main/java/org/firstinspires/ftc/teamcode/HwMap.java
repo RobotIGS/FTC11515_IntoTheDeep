@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.TouchSensor;
 
 import org.firstinspires.ftc.teamcode.Tools.Chassis.Chassis;
 import org.firstinspires.ftc.teamcode.Tools.Chassis.MecanumChassis;
@@ -28,7 +29,7 @@ public class HwMap {
     public Servo servo_intake_drehen;
     public Servo servo_korb_hoch_runter;
     public Servo servo_haken_drehen;
-
+    public TouchSensor touchSensor;
     /* END SECTION */
 
     /* PLACE YOUR CONSTANT VALUES DOWN BELOW*/
@@ -42,19 +43,21 @@ public class HwMap {
     public final float rotation_accuracy = 4.0f;
 
     // values
-    public int motor_achse_ganz_unten = 0; //ganz unten um Stein aufzuheben //TODO
-    public int motor_achse_stange = 0; //arm nur zur hälfe ausfahren damit wir die Stange berühren //TODO
-    public int motor_achse_unten = 0; //unten aber so das der Arm noch über die Steine kann //TODO
-    public int motor_achse_oben = 200;
+    public int motor_achse_ganz_unten = 1650; //ganz unten um Stein aufzuheben
+    public int motor_achse_stange = 700; //arm nur zur hälfe ausfahren damit wir die Stange berühren
+    public int motor_achse_unten = 1000; //unten aber so das der Arm noch über die Steine kann
+    public int motor_achse_ueber_box = 440;//TODO
+    public int motor_achse_start = 0;
 
-    public int motor_aufzug_unten = 200;
+    public int motor_aufzug_unten = 100;
     public int motor_aufzug_oben = 10000;
 
-    public int motor_intake_arm_drehen_rechts = -280;
-    public int motor_intake_arm_drehen_links = 100;
+    public int motor_intake_arm_drehen_rechts = -800;
+    public int motor_intake_arm_drehen_links = -150;
+    public int motor_intake_arm_drehen_ueber_box = -770;
 
-    public final double servo_intake_drehen_vorne = 0.0; //TODO
-    public final double servo_intake_drehen_hinten = 0.0; //TODO
+    public final double servo_intake_drehen_aufnehmen = 0.75;
+    public final double servo_intake_drehen_abgeben = 0.05;
 
     public final double servo_korb_arm_oben = 0.05;
     public final double servo_korb_arm_unten = 0.5;
@@ -96,7 +99,7 @@ public class HwMap {
         motor_intake_arm_drehen.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         motor_achse_unten = motor_intake_achse.getCurrentPosition() + 150;
-        motor_achse_oben = motor_intake_achse.getCurrentPosition() + 650;
+        motor_achse_ueber_box = motor_intake_achse.getCurrentPosition() + 650;
 
         servo_intake_links = hardwareMap.get(CRServo.class, "crservo_intake_links");
         servo_intake_rechts = hardwareMap.get(CRServo.class, "crservo_intake_rechts");
@@ -117,6 +120,8 @@ public class HwMap {
         motor_pull_up.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         motor_pull_up.setPower(1);
         motor_pull_up.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        touchSensor = hardwareMap.get(TouchSensor.class, "touch_sensor");
 
         /* END SECTION */
     }

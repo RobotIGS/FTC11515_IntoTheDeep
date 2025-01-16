@@ -10,7 +10,7 @@ public class AutonomeEckeParkenKurz extends BaseAutonomous {
     @Override
     public void run() {
         hwMap.motor_intake_achse.setTargetPosition(hwMap.motor_achse_unten);
-        hwMap.servo_intake_drehen.setPosition(hwMap.servo_intake_drehen_vorne);
+        hwMap.servo_intake_drehen.setPosition(hwMap.servo_intake_drehen_aufnehmen);
         hwMap.servo_korb_hoch_runter.setPosition(hwMap.servo_korb_arm_unten);
 
 

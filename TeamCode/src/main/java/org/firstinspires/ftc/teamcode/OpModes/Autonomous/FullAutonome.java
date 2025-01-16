@@ -10,7 +10,7 @@ public class FullAutonome extends BaseAutonomous {
     @Override
     public void run() {
         hwMap.motor_intake_achse.setTargetPosition(hwMap.motor_achse_unten);
-        hwMap.servo_intake_drehen.setPosition(hwMap.servo_intake_drehen_hinten);
+        hwMap.servo_intake_drehen.setPosition(hwMap.servo_intake_drehen_abgeben);
 
         hwMap.motor_intake_achse.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
@@ -56,7 +56,10 @@ public class FullAutonome extends BaseAutonomous {
         schleife();
 
         // Stein aufnehmen
-        hwMap.motor_intake_achse.setTargetPosition(hwMap.motor_achse_ganz_unten);
+
+        hwMap.motor_intake_achse.setPower(-0.5);
+        while (! hwMap.touchSensor.isPressed()) {}
+        hwMap.motor_intake_achse.setPower(0);
         hwMap.servo_intake_links.setPower(0.1);
         hwMap.servo_intake_rechts.setPower(-0.1);
         sleep(200);
