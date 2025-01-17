@@ -36,7 +36,7 @@ public class HwMap {
     // driving speeds
     public final double speed_full = 1.0;
     public final double speed_normal = 0.8;
-    public final double speed_sneak = 0.5;
+    public final double speed_sneak = 0.3;
 
     // autonomous values
     public final double driving_accuracy = 1.5;
