@@ -26,7 +26,7 @@ public class AutonomeAbwerfenMitteParken extends BaseAutonomous {
         schleife();
 
         // fahren
-        hwMap.robot.drive(new Position2D(-50, 0));
+        hwMap.robot.drive(new Position2D(-60, 0));
         schleife();
 
         // zur Box drehen
@@ -59,7 +59,7 @@ public class AutonomeAbwerfenMitteParken extends BaseAutonomous {
         sleep(100);
 
         // nach vorne fahren
-        hwMap.robot.drive(new Position2D(120, 55));
+        hwMap.robot.drive(new Position2D(120, 65));
         schleife();
     }
 
