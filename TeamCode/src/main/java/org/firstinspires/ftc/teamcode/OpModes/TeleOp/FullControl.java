@@ -18,8 +18,8 @@ public class FullControl extends BaseTeleOp {
      *  Gamepad 2:
      *      Vordefiniert:
      *          x: OVERRIDE LIMITS
-     *          a: intake achse hoch/ runter
-     *          b: intake kopf drehen vorne/ hinten
+     *          a: intake kopf drehen vorne/ hinten
+     *          b: intake achse hoch/ runter (ZU GEFÄHRLICH)
      *          y: Korb hoch/ runter
      *          dpad left: intake Halterung drehen
      *          dpad right: intake Halterung drehen
@@ -74,7 +74,7 @@ public class FullControl extends BaseTeleOp {
         }
 
         // INTAKE KOPF DREHEN feste Werte
-        if (gamepad2.b){
+        if (gamepad2.a){
             double position = (Math.abs(hwMap.servo_intake_drehen_abgeben + hwMap.servo_intake_drehen_aufnehmen)/2) - hwMap.servo_intake_drehen.getPosition();
             if (position < 0) {
                 hwMap.servo_intake_drehen.setPosition(hwMap.servo_intake_drehen_abgeben);
@@ -82,7 +82,7 @@ public class FullControl extends BaseTeleOp {
             else{
                 hwMap.servo_intake_drehen.setPosition(hwMap.servo_intake_drehen_aufnehmen);
             }
-            while (gamepad2.b){}
+            while (gamepad2.a){}
         }
         // INTAKE KOPF DREHEN manuell
         if (gamepad2.dpad_left){
@@ -94,7 +94,7 @@ public class FullControl extends BaseTeleOp {
 
         // INTAKE ACHSE HOCH RUNTER feste Werte
         // ZU GEFÄHRLICH
-        /* if (gamepad2.a){
+        /* if (gamepad2.b){
             double position = ((float) Math.abs(hwMap.motor_achse_unten + hwMap.motor_achse_ueber_box)/2) - hwMap.motor_intake_achse.getCurrentPosition();
             if(position < 0){
                 hwMap.motor_intake_achse.setTargetPosition(hwMap.motor_achse_unten);
@@ -102,7 +102,7 @@ public class FullControl extends BaseTeleOp {
             else {
                 hwMap.motor_intake_achse.setTargetPosition(hwMap.motor_achse_ueber_box);
             }
-            while (gamepad2.a){}
+            while (gamepad2.b){}
         } */
 
         // INTAKE ACHSE HOCH RUNTER manuell

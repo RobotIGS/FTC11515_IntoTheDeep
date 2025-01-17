@@ -10,9 +10,7 @@ public class AutonomeAbwerfenMitteParken extends BaseAutonomous {
 
     @Override
     public void run() {
-        hwMap.motor_intake_achse.setTargetPosition(hwMap.motor_achse_unten);
-        hwMap.servo_intake_drehen.setPosition(hwMap.servo_intake_drehen_aufnehmen);
-        hwMap.servo_korb_hoch_runter.setPosition(hwMap.servo_korb_arm_unten);
+        hwMap.motor_intake_achse.setTargetPosition(hwMap.motor_achse_stange);
 
         hwMap.robot.navi.setKeepRotation(true);
 
@@ -27,9 +25,6 @@ public class AutonomeAbwerfenMitteParken extends BaseAutonomous {
         hwMap.robot.rotate(-90);
         schleife();
 
-        // Aufzug ausfahren
-        hwMap.motor_aufzug.setTargetPosition(hwMap.motor_aufzug_oben);
-
         // fahren
         hwMap.robot.drive(new Position2D(-50, 0));
         schleife();
@@ -38,8 +33,12 @@ public class AutonomeAbwerfenMitteParken extends BaseAutonomous {
         hwMap.robot.rotate(45);
         schleife();
 
+        // Aufzug ausfahren
+        hwMap.motor_aufzug.setTargetPosition(hwMap.motor_aufzug_oben);
+        while (opModeIsActive() && Math.abs(hwMap.motor_aufzug.getCurrentPosition() - hwMap.motor_aufzug_oben) > 200) {}
+
         // fahren
-        hwMap.robot.drive(new Position2D(-30, 0));
+        hwMap.robot.drive(new Position2D(-50, 0));
         schleife();
         sleep(300);
 
@@ -60,7 +59,7 @@ public class AutonomeAbwerfenMitteParken extends BaseAutonomous {
         sleep(100);
 
         // nach vorne fahren
-        hwMap.robot.drive(new Position2D(110, 45));
+        hwMap.robot.drive(new Position2D(120, 55));
         schleife();
     }
 

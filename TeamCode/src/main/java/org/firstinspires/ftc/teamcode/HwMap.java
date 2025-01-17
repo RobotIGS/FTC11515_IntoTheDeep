@@ -59,7 +59,7 @@ public class HwMap {
     public final double servo_intake_drehen_aufnehmen = 0.75;
     public final double servo_intake_drehen_abgeben = 0.05;
 
-    public final double servo_korb_arm_oben = 0.05;
+    public final double servo_korb_arm_oben = 0.0;
     public final double servo_korb_arm_unten = 0.5;
 
     public final double servo_haken_drehen_aufklappen = 0;
