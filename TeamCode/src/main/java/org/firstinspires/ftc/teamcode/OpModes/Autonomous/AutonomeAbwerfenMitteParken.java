@@ -26,11 +26,11 @@ public class AutonomeAbwerfenMitteParken extends BaseAutonomous {
         schleife();
 
         // fahren
-        hwMap.robot.drive(new Position2D(-60, 0));
+        hwMap.robot.drive(new Position2D(-45, 0));
         schleife();
 
         // zur Box drehen
-        hwMap.robot.rotate(45);
+        hwMap.robot.rotate(30);
         schleife();
 
         // Aufzug ausfahren
@@ -44,9 +44,7 @@ public class AutonomeAbwerfenMitteParken extends BaseAutonomous {
 
         // Stein abladen und Korb anschließend einfahren
         hwMap.servo_korb_hoch_runter.setPosition(hwMap.servo_korb_arm_oben);
-        sleep(800);
-        hwMap.servo_korb_hoch_runter.setPosition(hwMap.servo_korb_arm_unten);
-        sleep(250);
+        sleep(1000);
 
 
         // Aufzug einfahren
@@ -59,7 +57,15 @@ public class AutonomeAbwerfenMitteParken extends BaseAutonomous {
         sleep(100);
 
         // nach vorne fahren
-        hwMap.robot.drive(new Position2D(120, 65));
+        hwMap.robot.drive(new Position2D(30, 0));
+        schleife();
+
+        // nach vorne fahren
+        hwMap.robot.drive(new Position2D(0, 100));
+        schleife();
+
+        // nach vorne fahren
+        hwMap.robot.drive(new Position2D(100, 50));
         schleife();
     }
 

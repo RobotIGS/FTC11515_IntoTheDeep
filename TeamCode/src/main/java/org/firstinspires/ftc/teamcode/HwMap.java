@@ -35,7 +35,7 @@ public class HwMap {
     /* PLACE YOUR CONSTANT VALUES DOWN BELOW*/
     // driving speeds
     public final double speed_full = 1.0;
-    public final double speed_normal = 0.8;
+    public final double speed_normal = 0.75;
     public final double speed_sneak = 0.3;
 
     // autonomous values
@@ -44,13 +44,13 @@ public class HwMap {
 
     // values
     public int motor_achse_ganz_unten = 1650; //ganz unten um Stein aufzuheben
-    public int motor_achse_stange = 700; //arm nur zur hälfe ausfahren damit wir die Stange berühren
+    public int motor_achse_stange = 700; //arm nur zur hälfte ausfahren damit wir die Stange berühren
     public int motor_achse_unten = 1000; //unten aber so das der Arm noch über die Steine kann
     public int motor_achse_ueber_box = 440;//TODO
     public int motor_achse_start = 0;
 
     public int motor_aufzug_unten = 100;
-    public int motor_aufzug_oben = 10000;
+    public int motor_aufzug_oben = 11150;
 
     public int motor_intake_arm_drehen_rechts = -800;
     public int motor_intake_arm_drehen_links = -150;
@@ -60,10 +60,10 @@ public class HwMap {
     public final double servo_intake_drehen_abgeben = 0.05;
 
     public final double servo_korb_arm_oben = 0.0;
-    public final double servo_korb_arm_unten = 0.5;
+    public final double servo_korb_arm_unten = 0.35;
 
     public final double servo_haken_drehen_aufklappen = 0;
-    public final double servo_haken_drehen_zuklappen = 0.35;
+    public final double servo_haken_drehen_zuklappen = 0.5;
     /* END SECTION */
 
     /**
